@@ -308,7 +308,6 @@ public class Graphe {
 	    				sommets_chemin.add(sommets[j]);
 	    		}
 	    	}
-	    System.out.println(" --> " + zones[i] + ":" + sommets_chemin.listIterator(nb_sommets-1).next().getNum()) ;//pour debug
 	    }
 	    Chemin chemin=new Chemin(nb_sommets,sommets_chemin,path_carte);
 	    
@@ -316,6 +315,8 @@ public class Graphe {
 		    System.out.println("Le chemin " + nom_chemin + " ne termine pas sur le bon noeud.") ;
 		    System.exit(1) ;
 		}
+	    
+	    System.out.println("temps du chemin : "+chemin.calculTemps());
 
 	} catch (IOException e) {
 	    e.printStackTrace() ;
