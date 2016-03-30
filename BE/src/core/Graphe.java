@@ -7,6 +7,8 @@ package core ;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import base.Couleur;
 import base.Descripteur;
 import base.Dessin;
@@ -276,8 +278,9 @@ public class Graphe {
 		System.out.println("Le chemin du fichier " + nom_chemin + " n'appartient pas a la carte actuellement chargee." ) ;
 		System.exit(1) ;
 	    }
+	    
 
-	    int nb_noeuds = dis.readInt () ;
+	    int nb_sommets = dis.readInt () ;
 
 	    // Origine du chemin
 	    int first_zone = dis.readUnsignedByte() ;
@@ -289,17 +292,27 @@ public class Graphe {
 
 	    System.out.println("Chemin de " + first_zone + ":" + first_node + " vers " + last_zone + ":" + last_node) ;
 
-	    int current_zone = 0 ;
-	    int current_node = 0 ;
 
-	    // Tous les noeuds du chemin
-	    for (int i = 0 ; i < nb_noeuds ; i++) {
-		current_zone = dis.readUnsignedByte() ;
-		current_node = Utils.read24bits(dis) ;
-		System.out.println(" --> " + current_zone + ":" + current_node) ;
+	    int[] zones=new int[nb_sommets];
+	    int[] IDsommets_chemin= new int[nb_sommets];
+	    ArrayList<Sommets> sommets_chemin;
+	    sommets_chemin=new ArrayList<Sommets>(nb_sommets);
+	    
+	    // Lecture de tous les noeuds du chemin
+	    for (int i = 0 ; i < nb_sommets ; i++) {
+	    	zones[i] = dis.readUnsignedByte() ;
+	    	IDsommets_chemin[i] = Utils.read24bits(dis) ;
+	    	//création tableau de sommet pour initialisation chemin
+	    	for(int j=0;j<sommets.length;j++){
+	    		if(sommets[j].getNum()==IDsommets_chemin[i]){
+	    				sommets_chemin.add(sommets[j]);
+	    		}
+	    	}
+	    System.out.println(" --> " + zones[i] + ":" + sommets_chemin.listIterator(nb_sommets-1).next().getNum()) ;//pour debug
 	    }
-
-	    if ((current_zone != last_zone) || (current_node != last_node)) {
+	    Chemin chemin=new Chemin(nb_sommets,sommets_chemin,path_carte);
+	    
+	    if ((zones[nb_sommets-1] != last_zone) || ( IDsommets_chemin[nb_sommets-1]!= last_node)) {
 		    System.out.println("Le chemin " + nom_chemin + " ne termine pas sur le bon noeud.") ;
 		    System.exit(1) ;
 		}
