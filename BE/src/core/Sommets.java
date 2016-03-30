@@ -24,6 +24,15 @@ public class Sommets {
 		arete.add(a) ; 
 	}
 	
+	public Arete recupArete(Sommets dest) {
+		Arete ar = null ; 
+		for (Arete a : arete) {
+			if (a.getSommetSucc().getNum()==dest.getNum()) {
+				ar=a ; 
+			}
+		}
+		return ar ; 
+	}
 	
 	
 	
