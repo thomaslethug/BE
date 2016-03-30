@@ -7,7 +7,7 @@ package base ;
 import java.awt.* ;
 
 public class Couleur {
-
+    
     static final Color autoroute = Color.red ;
     static final Color bigroute = new Color(255, 105, 0) ;
     static final Color tiroute = new Color(0, 0, 0) ;
