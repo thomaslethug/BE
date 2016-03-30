@@ -19,7 +19,7 @@ public class Chemin {
 		int tailleListe=this.listeSommets.size();
 		Arete areteChemin;
 		float temps=0.0f;
-		int longueur=0;
+		float longueur=0;
 		int vitesse=0;
 		
 		for(int i=0;i<(tailleListe-1);i++){
@@ -28,9 +28,9 @@ public class Chemin {
 			areteChemin=listeSommets.get(i).recupArete(listeSommets.get(i+1));
 			//}
 			//catch(Exception )
-			longueur=areteChemin.getLongueurArete();
+			longueur=((float) areteChemin.getLongueurArete() )/(1000.0f);
 			vitesse=areteChemin.getDescript().vitesseMax();
-			temps+=(((float)longueur)/((float)vitesse));
+			temps+=(60.0f*longueur)/((float)vitesse);
 		}
 		
 		return temps;
