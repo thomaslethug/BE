@@ -24,12 +24,15 @@ public class Sommets {
 		arete.add(a) ; 
 	}
 	
-	public Arete recupArete(Sommets dest) {
+	public Arete recupArete(Sommets dest) throws ExceptionBE {
 		Arete ar = null ; 
 		for (Arete a : arete) {
 			if (a.getSommetSucc().getNum()==dest.getNum()) {
 				ar=a ; 
 			}
+		}
+		if (ar==null){
+			throw new ExceptionBE("Le sommet "+this.num+" n'est pas connecté au sommet "+dest.getNum()+". L'arète n'existe donc pas.");
 		}
 		return ar ; 
 	}
