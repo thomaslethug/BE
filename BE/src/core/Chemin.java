@@ -2,15 +2,21 @@ package core;
 
 import java.util.ArrayList;
 
+import base.Dessin;
+
 public class Chemin {
 	
 	private int nbSommets;
 	private int idCarte;
 	private ArrayList<Sommets> listeSommets; //c'est une file, on accède au 1er ou au dernier
+	private Dessin dessin ;
+		
 	
-	public Chemin(int nbSommets, ArrayList<Sommets> listeSommets, int idCarte){
+	
+	public Chemin(int nbSommets, ArrayList<Sommets> listeSommets, int idCarte, Dessin dessin){
 		this.idCarte=idCarte;
 		this.listeSommets=listeSommets;
+		this.dessin=dessin ; 
 	}
 		
 	
@@ -35,6 +41,16 @@ public class Chemin {
 		
 		return temps;
 	}
+	
+	public void dessinerChemin() {
+		for (int i=0 ; i<(listeSommets.size()-1);i++) {
+			dessin.setColor(java.awt.Color.blue) ;
+			dessin.setWidth(4);
+			dessin.drawLine(listeSommets.get(i).getLongitudes(),listeSommets.get(i).getLatitudes()
+					, listeSommets.get(i+1).getLongitudes(), listeSommets.get(i+1).getLatitudes()) ;
+		}
+	}
+	
 	
 
 }

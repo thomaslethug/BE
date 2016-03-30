@@ -309,13 +309,13 @@ public class Graphe {
 	    		}
 	    	}
 	    }
-	    Chemin chemin=new Chemin(nb_sommets,sommets_chemin,path_carte);
+	    Chemin chemin=new Chemin(nb_sommets,sommets_chemin,path_carte,dessin);
 	    
 	    if ((zones[nb_sommets-1] != last_zone) || ( IDsommets_chemin[nb_sommets-1]!= last_node)) {
 		    System.out.println("Le chemin " + nom_chemin + " ne termine pas sur le bon noeud.") ;
 		    System.exit(1) ;
 		}
-	    
+	    chemin.dessinerChemin() ;
 	    System.out.println("temps du chemin : "+chemin.calculTemps());
 
 	} catch (IOException e) {
