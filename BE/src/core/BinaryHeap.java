@@ -84,13 +84,15 @@ public class BinaryHeap<E extends Comparable<E>> {
      * @param x the item to insert.
      */
     public void insert(E x) {
-	int index = this.currentSize++ ;
-	this.arraySet(index, x) ;
-	this.percolateUp(index) ;
+		int index = this.currentSize++ ;
+		map.put((Label)x, currentSize) ; 
+		this.arraySet(index, x) ;
+		this.percolateUp(index) ;
     }
 
     /**
      * Internal method to percolate up in the heap.
+     * MAJ dans 
      * @param index the index at which the percolate begins.
      */
     private void percolateUp(int index) {
@@ -102,6 +104,7 @@ public class BinaryHeap<E extends Comparable<E>> {
 	}
 
         this.arraySet(index, x) ;
+        map.put((Label)x,index) ; 
     }
 
     /**
@@ -273,4 +276,19 @@ public class BinaryHeap<E extends Comparable<E>> {
 	    }
 	}
     }
+    
+    public E checkSommet(Sommets s) {
+    	for (int i =0 ; i<array.size() ; i++) {
+    		Label l = ((Label)array.get(i)) ; 
+    		if (l.getSommet().equals(s)) {
+    			return (E) l ; 
+    		}
+    	}
+    	
+    	return null ; 
+    }
+    
+    
+    
+    
 }
