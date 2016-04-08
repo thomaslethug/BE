@@ -207,7 +207,7 @@ public class BinaryHeap<E extends Comparable<E>> {
     		if( this.array.get(i).equals(x) ){
     			trouve=1;
     			//on a trouvé l'element à mettre à jour
-    			if(i!=0 && i<(this.currentSize-1)/2 ){ //si ca n'est pas le premier sommet et qu'il a deux fils 
+    			if(i!=0 && i<(this.currentSize-1)/2 ){ //si ca n'est pas le premier sommet et qu'il a deux fils on test le père et les fils
     				if( this.array.get(i).compareTo(this.array.get((i-1)/2))<0 ){
     					this.percolateUp(i);
     				}
@@ -215,10 +215,18 @@ public class BinaryHeap<E extends Comparable<E>> {
     					this.percolateDown(i);
     				}
     			}
-    			else if(i==0){
-    				if( this.array.get(i).compareTo(this.array.get(i*2+1))>0 || this.array.get(i).compareTo(this.array.get(i*2+2))>0 ){
-    					this.percolateDown(i);
+    			else if(i==0){ // si on est le premier on test les fils
+    				if(this.currentSize>=2){
+    					if( this.array.get(i).compareTo(this.array.get(i*2+1))>0 || this.array.get(i).compareTo(this.array.get(i*2+2))>0 ){
+    						this.percolateDown(i);
+    					}
     				}
+    				else if(this.currentSize==1){
+    					if( this.array.get(i).compareTo(this.array.get(i*2+1))>0){
+    						this.percolateDown(i);
+    					}
+    				}
+    				else {}
     			}
     			else if(i>(this.currentSize-1)/2){
     				if( this.array.get(i).compareTo(this.array.get((i-1)/2))<0 ){

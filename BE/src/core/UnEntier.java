@@ -72,6 +72,8 @@ public class UnEntier implements Comparable<UnEntier> {
 	tas.print();
 	tas.update(tab[max-4]) ;
 	tas.print();
+	tas.printSorted() ;
+
 	// On change la valeur de tous les elements
 	for (int i = 0 ; i < tab.length ; i++) {
 	    UnEntier element = tab[i] ;
