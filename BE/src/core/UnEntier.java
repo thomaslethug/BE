@@ -55,7 +55,6 @@ public class UnEntier implements Comparable<UnEntier> {
 
 	// On verifie que le tas est bien trie.
 	tas.printSorted() ;
-	tas.print();
 
 	// On change la valeur de tous les elements
 	for (int i = 0 ; i < tab.length ; i++) {
@@ -64,12 +63,15 @@ public class UnEntier implements Comparable<UnEntier> {
 
 	    // Cette ligne ne compile pas avec le tas que l'on vous fournit au depart, c'est normal.
 	    // A vous de completer le tas pour que cela fonctionne.
-	    // tas.update(element) ;
-	}
+	   tas.update(element) ;
+		System.out.println("ok");
 
+	}
 	// Et on verifie que le tas est toujours trie.
 	tas.printSorted() ;
 	tas.print();
+	
+	
 
     }
 }
