@@ -195,6 +195,13 @@ public class BinaryHeap<E extends Comparable<E>> {
 	System.out.println() ;
 	}
     
+    
+    public void update(E x){
+    	
+    }
+    
+    
+    
     // Test program : compare with the reference implementation PriorityQueue.
     public static void main(String [] args) {
         BinaryHeap<Integer> heap = new BinaryHeap<Integer>() ;
