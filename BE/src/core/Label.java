@@ -1,12 +1,12 @@
 package core;
 
-public class Label {
+public class Label implements Comparable<Label>{
 	private int cout;
 	private Sommets pere;
 	private Sommets sommet;
 	private boolean marque;
 
-	public Label (int cout, Sommets Pere, Sommets sommet,boolean marque){
+	public Label(int cout, Sommets Pere, Sommets sommet,boolean marque){
 		this.cout=cout;
 		pere=Pere;
 		this.sommet=sommet;

@@ -1,33 +1,78 @@
 package core ;
 
 import java.io.* ;
+import java.util.ArrayList;
+
 import base.Readarg ;
 
 public class Pcc extends Algo {
 
-    // Numero des sommets origine et destination
+    // Sommets origine et destination
     protected int zoneOrigine ;
-    protected int origine ;
-
+    protected Sommets origine ;
+    protected BinaryHeap<Label> tas;
     protected int zoneDestination ;
-    protected int destination ;
+    protected Sommets destination ;
 
     public Pcc(Graphe gr, PrintStream sortie, Readarg readarg) {
 	super(gr, sortie, readarg) ;
+	int s1,s2;
 
 	this.zoneOrigine = gr.getZone () ;
-	this.origine = readarg.lireInt ("Numero du sommet d'origine ? ") ;
+	s1 = readarg.lireInt ("Numero du sommet d'origine ? ") ;
+	origine=gr.getSommets(s1);
 
 	// Demander la zone et le sommet destination.
 	this.zoneOrigine = gr.getZone () ;
-	this.destination = readarg.lireInt ("Numero du sommet destination ? ");
+	s2= readarg.lireInt ("Numero du sommet destination ? ");
+	destination=gr.getSommets(s2);
+	
     }
 
     public void run() {
 
 	System.out.println("Run PCC de " + zoneOrigine + ":" + origine + " vers " + zoneDestination + ":" + destination) ;
+	tas= new BinaryHeap<Label>();
+	// liste pour récuper les sommets du plus court chemin, dans l'ordre
+	//ArrayList<Label> ordre_pcc= new ArrayList<Label>();
+	Label racine= new Label(0,origine,origine,false );
+	tas.insert(racine);
+	
+	//on ne sort pas tant que le tas est vide que le sommet destination n'est pas exploré
+	while(tas.size()!=0 || racine.getSommet()!=destination){
+		racine=(Label)tas.findMin();
+		racine.setMarque(true);
+		//ordre_pcc..
+		tas.deleteMin();
+		for(int i=0;i<racine.getSommet().getNbSuccesseur();i++){
+			
+			Sommets succ = new Sommets(-1,0,0,0);
+			int cout_nouv;
+			Label label_succ;
+			succ=racine.getSommet().getArete().get(i).getSommetSucc();
+			cout_nouv=racine.getSommet().getArete().get(i).getLongueurArete();
+			
+			// récupération Label si dans tas sinon null
+			label_succ=(Label)tas.checkSommet(succ);
+			
+			//ajout dans tas si non existant
+			if(label_succ==null){
+				label_succ= new Label(cout_nouv, racine.getSommet(),succ,false);
+				tas.insert(label_succ);
+			
+			}
+			//modification cout et pere si passage par le sommet dans racine est plus court
+			if(label_succ.getCout()>cout_nouv){
+				label_succ.setCout(cout_nouv);
+				label_succ.setPere(racine.getSommet());
+				//le tas prend en compte ses modifications
+				tas.update(label_succ);		
+			}
+		}
+		System.out.println("PCC de " + ":" + origine.getNum() + " vers " + zoneDestination + ":" + destination.getNum()+"vaut"+racine.getCout()) ;
+		}
+		
+	}
+ }
 
-	// A vous d'implementer la recherche de plus court chemin.
-    }
 
-}

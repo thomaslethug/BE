@@ -324,5 +324,12 @@ public class Graphe {
 	}
 
     }
+	public Sommets getSommets(int i) {
+		return sommets[i];
+	}
+	public void setSommets(Sommets[] sommets) {
+		this.sommets = sommets;
+	}
+    
 
 }
