@@ -197,7 +197,25 @@ public class BinaryHeap<E extends Comparable<E>> {
     
     
     public void update(E x){
-    	
+    	int i=0;
+    	int trouve=0;
+		System.out.println("update");
+
+    	while (trouve!=1 && i<this.currentSize){
+    		if( this.array.get(i).equals(x) ){
+    			trouve=1;
+    			//on a trouvé l'element à mettre à jour
+				System.out.println(i+"\n----");
+    			if(i!=0){
+    				if( this.array.get(i).compareTo(this.array.get((i-1)/2))<0 ){
+    					this.percolateUp(i);
+    				}
+    			}
+    		}
+    		else{
+				i++;
+			}
+    	}
     }
     
     
