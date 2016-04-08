@@ -24,6 +24,7 @@ public class BinaryHeap<E extends Comparable<E>> {
     // Java genericity does not work with arrays.
     // We have to use an ArrayList
     private ArrayList<E> array; // The heap array
+    private HashMap<Sommets,E> map ; 
 
     /**
      * Construct the binary heap.
@@ -31,12 +32,14 @@ public class BinaryHeap<E extends Comparable<E>> {
     public BinaryHeap() {
         this.currentSize = 0;
         this.array = new ArrayList<E>() ;
+        this.map=new HashMap<Sommets,E>() ; 
     }
 
     // Constructor used for debug.
     private BinaryHeap(BinaryHeap<E> heap) {
 	this.currentSize = heap.currentSize ;
-	this.array = new ArrayList<E>(heap.array) ;
+	this.array = new ArrayList<E>(heap.array) ; 
+	this.map=new HashMap<Sommets,E>(heap.map);
     }
 
     // Sets an element in the array
