@@ -13,6 +13,10 @@ public class Label {
 		this.marque=marque;
 	}
 
+	public int compareTo(Label o) {
+		return cout - o.getCout() ; 
+	}
+	
 	public int getCout() {
 		return cout;
 	}
