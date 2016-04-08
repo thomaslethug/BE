@@ -152,7 +152,7 @@ public class BinaryHeap<E extends Comparable<E>> {
      */
     public E deleteMin( ) {
         E minItem = findMin( );
-	E lastItem = this.array.get(--this.currentSize) ;
+	    E lastItem = this.array.get(--this.currentSize) ;
         this.arraySet(0, lastItem) ;
         this.percolateDown( 0 );
         return minItem;
@@ -194,8 +194,6 @@ public class BinaryHeap<E extends Comparable<E>> {
 	System.out.println("--------  End of heap  --------") ;
 	System.out.println() ;
 	}
-
-
     
     // Test program : compare with the reference implementation PriorityQueue.
     public static void main(String [] args) {
