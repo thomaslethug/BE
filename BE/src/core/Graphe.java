@@ -333,6 +333,10 @@ public class Graphe {
 	public void setSommets(Sommets[] sommets) {
 		this.sommets = sommets;
 	}
+	
+	public int getIdCarte() {
+		return this.idcarte ; 
+	}
     
 
 }
