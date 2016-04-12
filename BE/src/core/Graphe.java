@@ -327,6 +327,9 @@ public class Graphe {
 	public Sommets getSommets(int i) {
 		return sommets[i];
 	}
+	public Sommets[] getTabSommets() {
+		return sommets ; 
+	}
 	public void setSommets(Sommets[] sommets) {
 		this.sommets = sommets;
 	}

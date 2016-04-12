@@ -31,19 +31,19 @@ public class Pcc extends Algo {
     }
 
     public void run() throws ExceptionBE {
-
+ 
 	System.out.println("Run PCC de " + zoneOrigine + ":" + origine + " vers " + zoneDestination + ":" + destination) ;
 	tas= new BinaryHeap<Label>();
 	// liste pour r�cuper les sommets du plus court chemin, dans l'ordre
 	//ArrayList<Label> ordre_pcc= new ArrayList<Label>();
 	Label racine= new Label(0,origine,origine,false );
 	tas.insert(racine);
-	List<Label> lesMarques = new ArrayList<Label>() ; 
+	Label[] lesMarques = new Label[graphe.getTabSommets().length] ; 
 	//on ne sort pas tant que le tas n'est pas vide ou que le sommet destination n'est pas explor�
 	while(tas.size()!=0 && racine.getSommet()!=destination){
 		racine=(Label)tas.findMin();
 		racine.setMarque(true);
-		lesMarques.add(racine) ; 
+		lesMarques[racine.getSommet().getNum()]=racine ; 
 		//ordre_pcc..
 		tas.deleteMin();
 		for(int i=0;i<racine.getSommet().getNbSuccesseur();i++){
@@ -63,16 +63,14 @@ public class Pcc extends Algo {
 			
 			//ajout dans tas si non existant
 			if(label_succ==null){
-				boolean testMarque = false ; 
 				//check les sommets marques 
-				for (Label lab : lesMarques) {
-					if(lab.getSommet().equals(succ)) testMarque=true ; 
-				}
-				if (!testMarque) {
+				if(lesMarques[succ.getNum()]==null) {
 					label_succ= new Label(cout_nouv, racine.getSommet(),succ,false);
 					tas.insert(label_succ);
+					//DESSIN DES SOMMETS 
+					graphe.getDessin().setColor(java.awt.Color.BLUE) ;
+					graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
 				}
-			
 			}
 			//modification cout et pere si passage par le sommet dans racine est plus court
 			else {
