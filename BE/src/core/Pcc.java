@@ -1,9 +1,10 @@
 package core ;
 
-import java.io.* ;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 
-import base.Readarg ;
+import base.Readarg;
 
 public class Pcc extends Algo {
 
@@ -29,19 +30,20 @@ public class Pcc extends Algo {
 	
     }
 
-    public void run() {
+    public void run() throws ExceptionBE {
 
 	System.out.println("Run PCC de " + zoneOrigine + ":" + origine + " vers " + zoneDestination + ":" + destination) ;
 	tas= new BinaryHeap<Label>();
-	// liste pour récuper les sommets du plus court chemin, dans l'ordre
+	// liste pour rï¿½cuper les sommets du plus court chemin, dans l'ordre
 	//ArrayList<Label> ordre_pcc= new ArrayList<Label>();
 	Label racine= new Label(0,origine,origine,false );
 	tas.insert(racine);
-	
-	//on ne sort pas tant que le tas est vide que le sommet destination n'est pas exploré
-	while(tas.size()!=0 || racine.getSommet()!=destination){
+	List<Label> lesMarques = new ArrayList<Label>() ; 
+	//on ne sort pas tant que le tas n'est pas vide ou que le sommet destination n'est pas explorï¿½
+	while(tas.size()!=0 && racine.getSommet()!=destination){
 		racine=(Label)tas.findMin();
 		racine.setMarque(true);
+		lesMarques.add(racine) ; 
 		//ordre_pcc..
 		tas.deleteMin();
 		for(int i=0;i<racine.getSommet().getNbSuccesseur();i++){
@@ -51,26 +53,41 @@ public class Pcc extends Algo {
 			Label label_succ;
 			succ=racine.getSommet().getArete().get(i).getSommetSucc();
 			cout_nouv=racine.getSommet().getArete().get(i).getLongueurArete();
+			cout_nouv+=racine.getCout() ; 
 			
-			// récupération Label si dans tas sinon null
+			// rï¿½cupï¿½ration Label si dans tas sinon null
 			label_succ=(Label)tas.checkSommet(succ);
+			
+			
+			
 			
 			//ajout dans tas si non existant
 			if(label_succ==null){
-				label_succ= new Label(cout_nouv, racine.getSommet(),succ,false);
-				tas.insert(label_succ);
+				boolean testMarque = false ; 
+				//check les sommets marques 
+				for (Label lab : lesMarques) {
+					if(lab.getSommet().equals(succ)) testMarque=true ; 
+				}
+				if (!testMarque) {
+					label_succ= new Label(cout_nouv, racine.getSommet(),succ,false);
+					tas.insert(label_succ);
+				}
 			
 			}
 			//modification cout et pere si passage par le sommet dans racine est plus court
-			if(label_succ.getCout()>cout_nouv){
-				label_succ.setCout(cout_nouv);
-				label_succ.setPere(racine.getSommet());
-				//le tas prend en compte ses modifications
-				tas.update(label_succ);		
+			else {
+				if(label_succ.getCout()>cout_nouv) {
+					label_succ.setCout(cout_nouv);
+					label_succ.setPere(racine.getSommet());
+					//le tas prend en compte ses modifications
+					tas.update(label_succ);
+				}
 			}
 		}
-		System.out.println("PCC de " + ":" + origine.getNum() + " vers " + zoneDestination + ":" + destination.getNum()+"vaut"+racine.getCout()) ;
 		}
+	if (!destination.equals(racine.getSommet())) 
+		throw new ExceptionBE("Il n'y a pas de chemin !") ; 
+	System.out.println("PCC de " + ":" + origine.getNum() + " vers " +  ":" + destination.getNum()+" vaut "+racine.getCout()) ;
 		
 	}
  }

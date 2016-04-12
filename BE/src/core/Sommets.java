@@ -19,6 +19,10 @@ public class Sommets {
 		this.arete = new ArrayList<Arete>();
 	}
 	
+	public String toString(){
+		return " Sommet num "+num+" Nb successeurs : "+nbSuccesseur;
+	}
+	
 	
 	public void addArete(Arete a) {
 		arete.add(a) ; 
@@ -57,7 +61,7 @@ public class Sommets {
 	}
 	
 	public int getNbSuccesseur() {
-		return nbSuccesseur;
+		return arete.size();
 	}
 
 	//seter, jet seter

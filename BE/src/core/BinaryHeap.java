@@ -203,13 +203,7 @@ public class BinaryHeap<E extends Comparable<E>> {
     
     
     public void update(E x){
-    	int i=0;
-    	int trouve=0;
-
-    	while (trouve!=1 && i<this.currentSize){
-    		if( this.array.get(i).equals(x) ){
-    			trouve=1;
-    			//on a trouvé l'element à mettre à jour
+    	int i=this.map.get((Label)x);
     			if(i!=0 && i<(this.currentSize-1)/2 ){ //si ca n'est pas le premier sommet et qu'il a deux fils on test le père et les fils
     				if( this.array.get(i).compareTo(this.array.get((i-1)/2))<0 ){
     					this.percolateUp(i);
@@ -237,11 +231,6 @@ public class BinaryHeap<E extends Comparable<E>> {
     				}
     			}
     		}
-    		else{
-				i++;
-			}
-    	}
-    }
     
     
     
