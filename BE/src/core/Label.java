@@ -1,12 +1,12 @@
 package core;
 
 public class Label implements Comparable<Label>{
-	private int cout;
+	private float cout;
 	private Sommets pere;
 	private Sommets sommet;
 	private boolean marque;
 
-	public Label(int cout, Sommets Pere, Sommets sommet,boolean marque){
+	public Label(float cout, Sommets Pere, Sommets sommet,boolean marque){
 		this.cout=cout;
 		pere=Pere;
 		this.sommet=sommet;
@@ -14,14 +14,17 @@ public class Label implements Comparable<Label>{
 	}
 
 	public int compareTo(Label o) {
-		return cout - o.getCout() ; 
+		if(cout - o.getCout()>0) return 1 ; 
+		if(cout-o.getCout()<0)return -1;
+		else return 0;
+		
 	}
 	
-	public int getCout() {
+	public float getCout() {
 		return cout;
 	}
 
-	public void setCout(int cout) {
+	public void setCout(float cout) {
 		this.cout = cout;
 	}
 
