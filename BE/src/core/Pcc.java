@@ -35,6 +35,10 @@ public class Pcc extends Algo {
 	System.out.println("Run PCC de " + zoneOrigine + ":" + origine + " vers " + zoneDestination + ":" + destination) ;
 	tas= new BinaryHeap<Label>();
 	// liste pour r�cuper les sommets du plus court chemin, dans l'ordre
+	
+	//Chemin 
+	ArrayList<Sommets> listeSommetPcc= new ArrayList<Sommets>();
+	int nbSommetsPcc=0;
 	//ArrayList<Label> ordre_pcc= new ArrayList<Label>();
 	Label racine= new Label(0,origine,origine,false );
 	tas.insert(racine);
@@ -83,8 +87,20 @@ public class Pcc extends Algo {
 			}
 		}
 		}
-	if (!destination.equals(racine.getSommet())) 
+	if (!destination.equals(racine.getSommet())) {
 		throw new ExceptionBE("Il n'y a pas de chemin !") ; 
+	}
+	else{
+		Label labelIter=racine;
+		while(!labelIter.getSommet().equals(origine)){
+			listeSommetPcc.add(labelIter.getSommet());
+			nbSommetsPcc++;
+			labelIter=lesMarques[labelIter.getPere().getNum()];
+		}
+		Chemin cheminPcc=new Chemin(nbSommetsPcc,listeSommetPcc,graphe.getIdCarte(),graphe.getDessin());
+		cheminPcc.dessinerChemin();
+		
+	} 
 	System.out.println("PCC de " + ":" + origine.getNum() + " vers " +  ":" + destination.getNum()+" vaut "+racine.getCout()) ;
 		
 	}
