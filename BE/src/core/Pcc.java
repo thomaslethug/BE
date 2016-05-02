@@ -43,6 +43,8 @@ public class Pcc extends Algo {
 		Label racine= new Label(0,origine,origine,false );
 		tas.insert(racine); 
 		int maxElementTas=1 ; 
+		int nbSommetsExplores=1 ; 
+		int nbMarques=0 ; 
 		Label[] lesMarques = new Label[graphe.getTabSommets().length] ; 
 		//on ne sort pas tant que le tas n'est pas vide ou que le sommet destination n'est pas explor�
 		while(tas.size()!=0 && racine.getSommet()!=destination){
@@ -51,6 +53,7 @@ public class Pcc extends Algo {
 			lesMarques[racine.getSommet().getNum()]=racine ; 
 			//ordre_pcc..
 			tas.deleteMin();
+			nbMarques++; 
 			for(int i=0;i<racine.getSommet().getNbSuccesseur();i++){
 				
 				Sommets succ = new Sommets(-1,0,0,0);
@@ -72,6 +75,7 @@ public class Pcc extends Algo {
 					if(lesMarques[succ.getNum()]==null) {
 						label_succ= new Label(cout_nouv, racine.getSommet(),succ,false);
 						tas.insert(label_succ);  
+						nbSommetsExplores++ ; 
 						if(maxElementTas<tas.size()) maxElementTas=tas.size() ; 
 						//DESSIN DES SOMMETS 
 						graphe.getDessin().setColor(java.awt.Color.BLUE) ;
@@ -98,6 +102,7 @@ public class Pcc extends Algo {
 				listeSommetPcc.add(labelIter.getSommet());
 				nbSommetsPcc++;
 				labelIter=lesMarques[labelIter.getPere().getNum()];
+				nbMarques++ ; 
 			}
 			Chemin cheminPcc=new Chemin(nbSommetsPcc,listeSommetPcc,graphe.getIdCarte(),graphe.getDessin());
 			cheminPcc.dessinerChemin();
@@ -105,7 +110,7 @@ public class Pcc extends Algo {
 		} 
 		System.out.println("PCC de " + ":" + origine.getNum() + " vers " +  ":" + destination.getNum()+" vaut "+racine.getCout()) ;
 		long t2 = System.currentTimeMillis() ; 
-		perfAlgo((t2-t1),maxElementTas) ;
+		perfAlgo((t2-t1),maxElementTas,nbSommetsExplores,nbMarques) ;
 	}
  
     	
@@ -120,6 +125,8 @@ public class Pcc extends Algo {
     	Label racine= new Label(0,origine,origine,false );
     	tas.insert(racine);
     	int maxElementTas=1 ;
+    	int nbSommetsExplores = 1; 
+    	int nbMarques = 0 ; 
     	Label[] lesMarques = new Label[graphe.getTabSommets().length];
     	//on ne sort pas tant que le tas n'est pas vide ou que le sommet destination n'est pas explor�
     	while(tas.size()!=0 && racine.getSommet()!=destination){
@@ -127,6 +134,7 @@ public class Pcc extends Algo {
     		racine.setMarque(true);
     		lesMarques[racine.getSommet().getNum()]=racine ; 
     		tas.deleteMin();
+    		nbMarques++ ; 
     		for(int i=0;i<racine.getSommet().getNbSuccesseur();i++){
     			
     			Sommets succ = new Sommets(-1,0,0,0);
@@ -153,6 +161,7 @@ public class Pcc extends Algo {
     				if(lesMarques[succ.getNum()]==null) {
     					label_succ= new Label(cout_nouv, racine.getSommet(),succ,false);
     					tas.insert(label_succ);
+    					nbSommetsExplores++ ; 
     					if(maxElementTas<tas.size()) maxElementTas=tas.size() ; 
     					//DESSIN DES SOMMETS 
     					graphe.getDessin().setColor(java.awt.Color.BLUE) ;
@@ -169,7 +178,7 @@ public class Pcc extends Algo {
     				}
     			}
     		}
-    		}
+    	}
     	if (!destination.equals(racine.getSommet())) {
     		throw new ExceptionBE("Il n'y a pas de chemin !") ; 
     	}
@@ -187,13 +196,14 @@ public class Pcc extends Algo {
     	System.out.println("PCC de " + ":" + origine.getNum() + " vers " +  ":" + destination.getNum()+" vaut "+racine.getCout()) ;
     	long t2 = System.currentTimeMillis() ; 
 
-    	perfAlgo((t2-t1),maxElementTas) ;
+    	perfAlgo((t2-t1),maxElementTas,nbSommetsExplores,nbMarques) ;
     }
     
     
     
-    public void perfAlgo(long t, int maxElem) {
-    	System.out.println("Temps d'exec : "+t+" , MaxElem : "+maxElem);
+    public void perfAlgo(long t, int maxElem , int nbSommetsExplores , int nbMarques) {
+    	System.out.println("Temps d'exec : "+t+" , MaxElem : "+maxElem+" , Nb sommets Explores : "+nbSommetsExplores
+    			+" Nb marques : "+nbMarques);
     }
     
 }
