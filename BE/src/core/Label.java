@@ -13,14 +13,22 @@ public class Label implements Comparable<Label>{
 		this.marque=marque;
 	}
 
+	@Override
 	public int compareTo(Label o) {
-		if(cout - o.getCout()>0) return 1 ; 
-		if(cout-o.getCout()<0)return -1;
-		else return 0;
-		
+		if(this.getTotalCout() - o.getTotalCout()>0) return 1 ; 
+		if(this.getTotalCout() - o.getTotalCout()<0)return -1;
+		else{
+			if(this.getCout()-o.getCout()>0) return 1;
+			if(this.getCout()-o.getCout()<0) return -1;
+			else return 0;
+		}
 	}
 	
 	public float getCout() {
+		return cout;
+	}
+	
+	public float getTotalCout(){
 		return cout;
 	}
 
