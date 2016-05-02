@@ -9,11 +9,11 @@ public class PccStar extends Pcc {
 	super(gr, sortie, readarg) ;
     }
 
-    public void run() {
 
-	System.out.println("Run PCC-Star de " + zoneOrigine + ":" + origine + " vers " + zoneDestination + ":" + destination) ;
+    @Override
+	protected Label initLabel(float cout, Sommets pere, Sommets sommet,boolean marque,Sommets Destination){
+    	return new LabelAStar(cout,pere,sommet,marque,(float)graphe.distance(sommet.getLongitudes(),sommet.getLatitudes(),destination.getLongitudes(),destination.getLatitudes()));
+	}
 
-	// A vous d'implementer la recherche de plus court chemin A*
-    }
 
 }

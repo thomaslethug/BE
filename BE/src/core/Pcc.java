@@ -122,7 +122,10 @@ public class Pcc extends Algo {
     	//Chemin
     	int nbSommetsPcc=0;
     	ArrayList<Sommets> listeSommetPcc= new ArrayList<Sommets>();
-    	Label racine= new Label(0,origine,origine,false );
+    	
+		Label racine= initLabel(0,origine,origine,false,destination );
+    	
+    	
     	tas.insert(racine);
     	int maxElementTas=1 ;
     	int nbSommetsExplores = 1; 
@@ -159,7 +162,9 @@ public class Pcc extends Algo {
     			if(label_succ==null){
     				//check les sommets marques 
     				if(lesMarques[succ.getNum()]==null) {
-    					label_succ= new Label(cout_nouv, racine.getSommet(),succ,false);
+    					
+    					label_succ= initLabel(cout_nouv, racine.getSommet(),succ,false,destination); 
+    					
     					tas.insert(label_succ);
     					nbSommetsExplores++ ; 
     					if(maxElementTas<tas.size()) maxElementTas=tas.size() ; 
@@ -205,6 +210,13 @@ public class Pcc extends Algo {
     	System.out.println("Temps d'exec : "+t+" , MaxElem : "+maxElem+" , Nb sommets Explores : "+nbSommetsExplores
     			+" Nb marques : "+nbMarques);
     }
+    
+	protected Label initLabel(float cout, Sommets Pere, Sommets sommet,boolean marque,Sommets Destination){
+    	return new Label(cout,Pere,sommet,marque );
+    }
+    
+    
+    
     
 }
 
