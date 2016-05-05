@@ -12,9 +12,17 @@ public class Label implements Comparable<Label>{
 		this.sommet=sommet;
 		this.marque=marque;
 	}
-
+//32 vers 31, 33
+//Sommet num 33 Nb successeurs : 2  329.26123
+//Sommet num 31 Nb successeurs : 2  177.00674
+	
 	@Override
 	public int compareTo(Label o) {
+		if (sommet.getNum()==33 && o.getSommet().getNum()==31){
+			System.out.println(sommet+" cout tot "+this.getTotalCout()+" cout "+this.getCout());
+			System.out.println(o.getSommet()+" cout tot "+o.getTotalCout()+" cout "+o.getCout()+"\n");
+		}
+
 		if(this.getTotalCout() - o.getTotalCout()>0) return 1 ; 
 		if(this.getTotalCout() - o.getTotalCout()<0)return -1;
 		else{
