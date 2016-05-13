@@ -18,8 +18,8 @@ public class LabelAStar extends Label{
 		this.coutDestination = coutDestination;
 	}
 
-	public float getTotalCout(){
-		return this.getCout()+coutDestination;
+	public float getCoutEstimation(){
+		return this.coutDestination;
 	}
 	
 	

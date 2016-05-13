@@ -113,6 +113,30 @@ public class Pcc extends Algo {
 		perfAlgo((t2-t1),maxElementTas,nbSommetsExplores,nbMarques) ;
 	}
  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     	
      
     public void run() throws ExceptionBE {
@@ -133,21 +157,25 @@ public class Pcc extends Algo {
     	Label[] lesMarques = new Label[graphe.getTabSommets().length];
     	//on ne sort pas tant que le tas n'est pas vide ou que le sommet destination n'est pas explor�
     	while(tas.size()!=0 && racine.getSommet()!=destination){
+    		
     		racine=(Label)tas.findMin();
     		racine.setMarque(true);
     		lesMarques[racine.getSommet().getNum()]=racine ; 
     		tas.deleteMin();
     		nbMarques++ ; 
+    		
+    		//Pour tous les successeurs du sommet actuel 
     		for(int i=0;i<racine.getSommet().getNbSuccesseur();i++){
     			
-    			Sommets succ = new Sommets(-1,0,0,0);
+    			Sommets succ ;
     			float cout_nouv;
     			float vitesse;
     			int distance;
     			Label label_succ;
     			succ=racine.getSommet().getArete().get(i).getSommetSucc();
     			
-    			distance=racine.getSommet().getArete().get(i).getLongueurArete();
+    			distance=racine.getSommet().getArete().get(i).getLongueurArete(); //en metre 
+    			
     			vitesse=(float)racine.getSommet().getArete().get(i).getDescript().vitesseMax();
     			
     			cout_nouv=racine.getCout() + (60.0f*distance)/(1000*vitesse);
