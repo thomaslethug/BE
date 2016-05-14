@@ -20,10 +20,10 @@ public class Pcc extends Algo {
 		int s1,s2;
 		if(ConstantsDebug.doTimeExec) {
 			this.zoneOrigine = gr.getZone () ;
-			s1 = 119963 ; 
+			s1 = 949549 ; 
 			origine=gr.getSommets(s1);
 			this.zoneOrigine = gr.getZone () ;
-			s2= 96676 ; 
+			s2= 342377 ; 
 			destination=gr.getSommets(s2);
 		} 
 		else {
@@ -40,7 +40,23 @@ public class Pcc extends Algo {
     } 	
     
      
-    public void run() throws ExceptionBE {
+    public void run() throws ExceptionBE  {
+    	if(ConstantsDebug.doTimeExec) {
+    		for (int i =0; i<5 ; i++) {
+    			launchPCC() ; 
+    		}
+    		System.gc();
+    		long t1 = System.currentTimeMillis() ; 
+    		this.launchPCC(); 
+    		long t2 = System.currentTimeMillis() ; 
+    		System.out.println("Temps d'execution : "+(t2-t1)+" ms") ;
+    	} else {
+    		this.launchPCC();
+    	}
+    
+    }
+    
+    public void launchPCC() throws ExceptionBE{
     	if(ConstantsDebug.printDebug) affichageDebut();
     	
     	//Création du tas binaire 
@@ -141,10 +157,7 @@ public class Pcc extends Algo {
     	
     	if (ConstantsDebug.printResult) affichageFin( origine, destination,racine.getCout());
     	if (ConstantsDebug.printDebug) perfAlgo(maxElementTas,nbSommetsExplores,nbMarques) ;
-    
     }
-    
-    
     
     public void perfAlgo(int maxElem , int nbSommetsExplores , int nbMarques) {
     	System.out.println("MaxElem : "+maxElem+" , Nb sommets Explores : "+nbSommetsExplores

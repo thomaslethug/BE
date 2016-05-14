@@ -88,20 +88,7 @@ public class Launch {
 			switch(choix2){
 			
 			case 0 : 
-				PrintStream prs = this.fichierSortie() ; 
-				if(ConstantsDebug.doTimeExec) {
-					for (int bo=0 ; bo<10 ; bo++) {						
-						algo = new Pcc(graphe,prs, this.readarg) ;
-					}
-					System.gc(); //pour s'assurer que le gc se fasse ici 
-					long dijkstra1 = System.currentTimeMillis() ; 
-					algo = new Pcc(graphe,prs, this.readarg) ;
-					long dijkstra2 = System.currentTimeMillis() ; 
-					System.out.println("Temps d'execution de Dijkstra : "+(dijkstra2-dijkstra1)) ; 
-				}
-				else {
-					algo = new Pcc(graphe, prs, this.readarg) ;
-				}
+				algo = new Pcc(graphe, this.fichierSortie() , this.readarg) ;
 				break ;
 			
 			case 1 : algo = new PccDistance(graphe, this.fichierSortie (), this.readarg) ; break ;
@@ -120,7 +107,9 @@ public class Launch {
 			
 			switch(choix2){
 			
-			case 0 : algo = new PccStar(graphe, this.fichierSortie (), this.readarg) ; break ;
+			case 0 : 
+
+				algo = new PccStar(graphe,this.fichierSortie(), this.readarg) ; break ;
 			
 			case 1 : algo = new PccStarDistance(graphe, this.fichierSortie (), this.readarg) ; break ;
 			
