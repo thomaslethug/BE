@@ -33,5 +33,16 @@ public class PccStar extends Pcc {
     	float vitesse=(float)130; //km/h
     	return (60.0f*distance)/(1000*vitesse);			
     }
+    
+    
+    @Override
+    protected void affichageDebut(){
+		System.out.println("Run PCCaStar en temps de " + zoneOrigine + ":" + origine + " vers " + zoneDestination + ":" + destination) ;
+	}
+    
+    @Override
+    protected void affichageFin(Sommets origine, Sommets destination,float cout){
+   		System.out.println("PCCaStar en temps de " + ": " + origine.getNum() + " vers " +  ": " + destination.getNum()+" vaut "+cout+" minutes soit "+cout/60+" heures.") ;
+	}
 }
 

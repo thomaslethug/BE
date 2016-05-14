@@ -68,4 +68,7 @@ public class Label implements Comparable<Label>{
 		this.marque = marque;
 	}
 	
+	public String toString(){
+		return "Label du sommet "+sommet.toString();
+	}
 }

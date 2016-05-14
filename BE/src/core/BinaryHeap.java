@@ -24,7 +24,7 @@ public class BinaryHeap<E extends Comparable<E>> {
     // Java genericity does not work with arrays.
     // We have to use an ArrayList
     private ArrayList<E> array; // The heap array
-    private HashMap<Label,Integer> map ; 
+    private HashMap<E,Integer> map ; 
 
     /**
      * Construct the binary heap.
@@ -32,24 +32,25 @@ public class BinaryHeap<E extends Comparable<E>> {
     public BinaryHeap() {
         this.currentSize = 0;
         this.array = new ArrayList<E>() ;
-        this.map=new HashMap<Label,Integer>() ; 
+        this.map=new HashMap<E,Integer>() ; 
     }
 
     // Constructor used for debug.
     private BinaryHeap(BinaryHeap<E> heap) {
-	this.currentSize = heap.currentSize ;
-	this.array = new ArrayList<E>(heap.array) ; 
-	this.map=new HashMap<Label,Integer>(heap.map);
+    	this.currentSize = heap.currentSize ;
+    	this.array = new ArrayList<E>(heap.array) ; 
+    	this.map=new HashMap<E,Integer>(heap.map);
     }
 
     // Sets an element in the array
     private void arraySet(int index, E value) {
-	if (index == this.array.size()) {
-	    this.array.add(value) ;
-	}
-	else {
-	    this.array.set(index, value) ;
-	}
+		if (index == this.array.size()) {
+		    this.array.add(value) ;
+		}
+		else {
+		    this.array.set(index, value) ;
+		}
+		this.map.put(value, index);
     }
 
     /**
@@ -85,7 +86,6 @@ public class BinaryHeap<E extends Comparable<E>> {
      */
     public void insert(E x) {
 		int index = this.currentSize++ ;
-		map.put((Label)x, currentSize) ; 
 		this.arraySet(index, x) ;
 		this.percolateUp(index) ;
     }
@@ -104,7 +104,6 @@ public class BinaryHeap<E extends Comparable<E>> {
 	}
 
         this.arraySet(index, x) ;
-        map.put((Label)x,index) ; 
     }
 
     /**
@@ -161,6 +160,8 @@ public class BinaryHeap<E extends Comparable<E>> {
 	    E lastItem = this.array.get(--this.currentSize) ;
         this.arraySet(0, lastItem) ;
         this.percolateDown( 0 );
+        //si un element est enlevé du tas il doit être enlevé de la hashtable
+        this.map.remove(minItem);
         return minItem;
     }
     
@@ -203,6 +204,10 @@ public class BinaryHeap<E extends Comparable<E>> {
     
     
     public void update(E x){
+    	this.percolateDown(this.map.get(x));
+    	this.percolateUp(this.map.get(x));
+
+    	/* La version ci dessous marche mais est inutile car les percolate le font
     	int i=this.map.get((Label)x);
     			if(i!=0 && i<(this.currentSize-1)/2 ){ //si ca n'est pas le premier sommet et qu'il a deux fils on test le père et les fils
     				if( this.array.get(i).compareTo(this.array.get((i-1)/2))<0 ){
@@ -229,73 +234,66 @@ public class BinaryHeap<E extends Comparable<E>> {
     				if( this.array.get(i).compareTo(this.array.get((i-1)/2))<0 ){
     					this.percolateUp(i);
     				}
-    			}
-    		}
+    			}*/
+    }
     
     
     
     // Test program : compare with the reference implementation PriorityQueue.
     public static void main(String [] args) {
         BinaryHeap<Integer> heap = new BinaryHeap<Integer>() ;
-	PriorityQueue<Integer> queue = new PriorityQueue<Integer>() ;
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>() ;
 
-	int count = 0 ;
-	int blocksize = 10000 ;
-
-	System.out.println("Interrupt to stop the test.") ;
+		int count = 0 ;
+		int blocksize = 10000 ;
 	
-	while (true) {
-
-	    // Insert up to blocksize elements
-	    int nb_insert = (int)(Math.random() * (blocksize + 1)) ;
-	    
-	    for (int i = 0 ; i < nb_insert ; i++) {
-		Integer obj = new Integer(i) ;
-		heap.insert(obj) ;
-		queue.add(obj) ;
-	    }
-
-	    // Remove up to blocksize elements
-	    int nb_remove = (int)(Math.random() * blocksize * 1.1) ;
-	    
-	    if (nb_remove > queue.size()) {
-		nb_remove = queue.size() ;
-	    }
-
-	    for (int i = 0 ; i < nb_remove ; i++) {
-
-		int removed1 = queue.poll().intValue() ;
-		int removed2 = heap.deleteMin().intValue() ;
+		System.out.println("Interrupt to stop the test.") ;
 		
-		if (removed1 != removed2) {
-		    System.out.println("Ouch : expected " + removed1 + "  .. but got " + removed2) ;
-		    System.exit(1) ;
+		while (true) {
+	
+		    // Insert up to blocksize elements
+		    int nb_insert = (int)(Math.random() * (blocksize + 1)) ;
+		    
+		    for (int i = 0 ; i < nb_insert ; i++) {
+			Integer obj = new Integer(i) ;
+			heap.insert(obj) ;
+			queue.add(obj) ;
+		    }
+	
+		    // Remove up to blocksize elements
+		    int nb_remove = (int)(Math.random() * blocksize * 1.1) ;
+		    
+		    if (nb_remove > queue.size()) {
+			nb_remove = queue.size() ;
+		    }
+	
+		    for (int i = 0 ; i < nb_remove ; i++) {
+	
+			int removed1 = queue.poll().intValue() ;
+			int removed2 = heap.deleteMin().intValue() ;
+			
+			if (removed1 != removed2) {
+			    System.out.println("Ouch : expected " + removed1 + "  .. but got " + removed2) ;
+			    System.exit(1) ;
+			}
+		    }
+	
+		    if (heap.size() != queue.size()) {
+			    System.out.println("Ouch : heap size = " + heap.size() + "  queue size = " + queue.size() ) ;
+			    System.exit(1) ;
+			}
+	
+		    count += nb_remove ;
+		    
+		    if (count > 1000000) {
+			System.out.println("" + count + " items successfully compared. Heap size : " + heap.size()) ;
+			count = 0 ;
+		    }
 		}
-	    }
-
-	    if (heap.size() != queue.size()) {
-		    System.out.println("Ouch : heap size = " + heap.size() + "  queue size = " + queue.size() ) ;
-		    System.exit(1) ;
-		}
-
-	    count += nb_remove ;
-	    
-	    if (count > 1000000) {
-		System.out.println("" + count + " items successfully compared. Heap size : " + heap.size()) ;
-		count = 0 ;
-	    }
-	}
     }
     
-    public E checkSommet(Sommets s) {
-    	for (int i =0 ; i<array.size() ; i++) {
-    		Label l = ((Label)array.get(i)) ; 
-    		if (l.getSommet().equals(s)) {
-    			return (E) l ; 
-    		}
-    	}
-    	
-    	return null ; 
+    public boolean contains(E s) {
+    	return this.map.containsKey(s); 
     }
     
     

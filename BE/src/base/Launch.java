@@ -64,6 +64,7 @@ public class Launch {
 	    // jusqu'a ce que l'on quitte.
 	    boolean continuer = true ;
 	    int choix ;
+	    int choix2;
 	    
 	    while (continuer) {
 		this.afficherMenu () ;
@@ -78,10 +79,42 @@ public class Launch {
 
 		case 1 : algo = new Connexite(graphe, this.fichierSortie (), this.readarg) ; break ;
 		
-		case 2 : algo = new Pcc(graphe, this.fichierSortie (), this.readarg) ; break ;
+		case 2 : 
+			
+			System.out.println ("\n		0 - Pcc en temps (le normal)") ;
+			System.out.println ("		1 - Pcc en distance\n") ;
+			choix2 = this.readarg.lireInt ("Votre choix ? ") ;
+			
+			switch(choix2){
+			
+			case 0 : algo = new Pcc(graphe, this.fichierSortie (), this.readarg) ; break ;
+			
+			case 1 : algo = new PccDistance(graphe, this.fichierSortie (), this.readarg) ; break ;
+			
+			default:
+			    System.out.println ("Choix de menu incorrect : " + choix) ;
+			    System.exit(1) ;
+			}
+			break;
+			
+		case 3 : 
 		
-		case 3 : algo = new PccStar(graphe, this.fichierSortie (), this.readarg) ; break ;
-	
+			System.out.println ("\n		0 - PccStar en temps (le normal)") ;
+			System.out.println ("		1 - PccStar en distance\n") ;
+			choix2 = this.readarg.lireInt ("Votre choix ? ") ;
+			
+			switch(choix2){
+			
+			case 0 : algo = new PccStar(graphe, this.fichierSortie (), this.readarg) ; break ;
+			
+			case 1 : algo = new PccStarDistance(graphe, this.fichierSortie (), this.readarg) ; break ;
+			
+			default:
+			    System.out.println ("Choix de menu incorrect : " + choix) ;
+			    System.exit(1) ;
+			}
+			break;
+				
 		case 4 : graphe.situerClick() ; break ;
 
 		case 5 :

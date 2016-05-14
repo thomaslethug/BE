@@ -28,186 +28,82 @@ public class Pcc extends Algo {
 	s2= readarg.lireInt ("Numero du sommet destination ? ");
 	destination=gr.getSommets(s2);
 	
-    }
-
-    public void runDistance() throws ExceptionBE {
-    	long t1 = System.currentTimeMillis() ; 
-		System.out.println("Run PCC de " + zoneOrigine + ":" + origine + " vers " + zoneDestination + ":" + destination) ;
-		tas= new BinaryHeap<Label>();
-		// liste pour recuperer les sommets du plus court chemin, dans l'ordre
-		
-		//Chemin 
-		ArrayList<Sommets> listeSommetPcc= new ArrayList<Sommets>();
-		int nbSommetsPcc=0;
-		//ArrayList<Label> ordre_pcc= new ArrayList<Label>();
-		Label racine= new Label(0,origine,origine,false );
-		tas.insert(racine); 
-		int maxElementTas=1 ; 
-		int nbSommetsExplores=1 ; 
-		int nbMarques=0 ; 
-		Label[] lesMarques = new Label[graphe.getTabSommets().length] ; 
-		//on ne sort pas tant que le tas n'est pas vide ou que le sommet destination n'est pas explor�
-		while(tas.size()!=0 && racine.getSommet()!=destination){
-			racine=(Label)tas.findMin();
-			racine.setMarque(true);
-			lesMarques[racine.getSommet().getNum()]=racine ; 
-			//ordre_pcc..
-			tas.deleteMin();
-			nbMarques++; 
-			for(int i=0;i<racine.getSommet().getNbSuccesseur();i++){
-				
-				Sommets succ = new Sommets(-1,0,0,0);
-				int cout_nouv;
-				Label label_succ;
-				succ=racine.getSommet().getArete().get(i).getSommetSucc();
-				cout_nouv=racine.getSommet().getArete().get(i).getLongueurArete();
-				cout_nouv+=racine.getCout() ; 
-				
-				// r�cup�ration Label si dans tas sinon null
-				label_succ=(Label)tas.checkSommet(succ);
-				
-				
-				
-				
-				//ajout dans tas si non existant
-				if(label_succ==null){
-					//check les sommets marques 
-					if(lesMarques[succ.getNum()]==null) {
-						label_succ= new Label(cout_nouv, racine.getSommet(),succ,false);
-						tas.insert(label_succ);  
-						nbSommetsExplores++ ; 
-						if(maxElementTas<tas.size()) maxElementTas=tas.size() ; 
-						//DESSIN DES SOMMETS 
-						graphe.getDessin().setColor(java.awt.Color.BLUE) ;
-						graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
-					}
-				}
-				//modification cout et pere si passage par le sommet dans racine est plus court
-				else {
-					if(label_succ.getCout()>cout_nouv) {
-						label_succ.setCout(cout_nouv);
-						label_succ.setPere(racine.getSommet());
-						//le tas prend en compte ses modifications
-						tas.update(label_succ);
-					}
-				}
-			}
-			}
-		if (!destination.equals(racine.getSommet())) {
-			throw new ExceptionBE("Il n'y a pas de chemin !") ; 
-		}
-		else{
-			Label labelIter=racine;
-			while(!labelIter.getSommet().equals(origine)){
-				listeSommetPcc.add(labelIter.getSommet());
-				nbSommetsPcc++;
-				labelIter=lesMarques[labelIter.getPere().getNum()];
-				nbMarques++ ; 
-			}
-			Chemin cheminPcc=new Chemin(nbSommetsPcc,listeSommetPcc,graphe.getIdCarte(),graphe.getDessin());
-			cheminPcc.dessinerChemin();
-			
-		} 
-		System.out.println("PCC de " + ":" + origine.getNum() + " vers " +  ":" + destination.getNum()+" vaut "+racine.getCout()) ;
-		long t2 = System.currentTimeMillis() ; 
-		perfAlgo((t2-t1),maxElementTas,nbSommetsExplores,nbMarques) ;
-	}
- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    	
+    } 	
      
     public void run() throws ExceptionBE {
     	long t1 = System.currentTimeMillis() ; 
-    	System.out.println("Run PCC de " + zoneOrigine + ":" + origine + " vers " + zoneDestination + ":" + destination) ;
+    	affichageDebut();
     	tas= new BinaryHeap<Label>();
-    	//Chemin
+    	
+    	//Pour le tracé du PCC
     	int nbSommetsPcc=0;
     	ArrayList<Sommets> listeSommetPcc= new ArrayList<Sommets>();
     	
+    	//Tableau contenant tous les labels
+    	Label labels[] = new Label[graphe.getTabSommets().length];
+    	//initialisation de tous les labels
+    	for (int i=0;i<graphe.getTabSommets().length;i++){
+    		labels[i]=initLabel(999999999,null,graphe.getSommets(i),false,destination );
+    	}
+    	
+    	//initialisation de la racine 
 		Label racine= initLabel(0,origine,origine,false,destination );
-    	
-    	
     	tas.insert(racine);
+    
+
     	int maxElementTas=1 ;
     	int nbSommetsExplores = 1; 
     	int nbMarques = 0 ; 
-    	Label[] lesMarques = new Label[graphe.getTabSommets().length];
+    	
     	//on ne sort pas tant que le tas n'est pas vide ou que le sommet destination n'est pas explor�
     	while(tas.size()!=0 && racine.getSommet()!=destination){
-    		
-    		racine=(Label)tas.findMin();
+
+    		racine=tas.findMin();
     		racine.setMarque(true);
-    		lesMarques[racine.getSommet().getNum()]=racine ; 
+        	labels[racine.getSommet().getNum()]=racine;
     		tas.deleteMin();
-    		nbMarques++ ; 
+    		nbMarques++ ;
     		
     		//Pour tous les successeurs du sommet actuel 
     		for(int i=0;i<racine.getSommet().getNbSuccesseur();i++){
-    			
+
     			Sommets succ ;
     			float cout_nouv;
     			float vitesse;
     			int distance;
-    			Label label_succ;
-    			succ=racine.getSommet().getArete().get(i).getSommetSucc();
-    			
+    			succ=racine.getSommet().getArete().get(i).getSommetSucc();    			
     			distance=racine.getSommet().getArete().get(i).getLongueurArete(); //en metre 
-    			
     			vitesse=(float)racine.getSommet().getArete().get(i).getDescript().vitesseMax();
+    			cout_nouv=initCout(racine.getCout(),distance,vitesse);
     			
-    			cout_nouv=racine.getCout() + (60.0f*distance)/(1000*vitesse);
-    			
-    			// r�cup�ration Label si dans tas sinon null
-    			label_succ=(Label)tas.checkSommet(succ);
-    			
-    			
-    			
-    			
-    			//ajout dans tas si non existant
-    			if(label_succ==null){
-    				//check les sommets marques 
-    				if(lesMarques[succ.getNum()]==null) {
-    					
-    					label_succ= initLabel(cout_nouv, racine.getSommet(),succ,false,destination); 
-    					
-    					tas.insert(label_succ);
-    					nbSommetsExplores++ ; 
-    					if(maxElementTas<tas.size()) maxElementTas=tas.size() ; 
-    					//DESSIN DES SOMMETS 
-    					graphe.getDessin().setColor(java.awt.Color.BLUE) ;
-    					graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
+    			//si le sommet successeur est marqué on fait rien car déja traité 
+    			if(!labels[succ.getNum()].isMarque()){
+
+    				//si le sommet successeur n'est pas dans le tas
+    				if(!tas.contains(labels[succ.getNum()])){
+
+    					labels[succ.getNum()].setCout(cout_nouv);
+    					labels[succ.getNum()].setPere(racine.getSommet());
+	    				tas.insert(labels[succ.getNum()]);
+	    				nbSommetsExplores++ ; 
+	    				
+	    				if(maxElementTas<tas.size()) maxElementTas=tas.size() ; 
+	    				//DESSIN DES SOMMETS 
+	    				graphe.getDessin().setColor(java.awt.Color.RED) ;
+	    				graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
+	    					
     				}
-    			}
-    			//modification cout et pere si passage par le sommet dans racine est plus court
-    			else {
-    				if(label_succ.getCout()>cout_nouv) {
-    					label_succ.setCout(cout_nouv);
-    					label_succ.setPere(racine.getSommet());
-    					//le tas prend en compte ses modifications
-    					tas.update(label_succ);
+    				
+    				else{   	//si le sommet succésseur est dans le tas on update peut être
+
+    					if(labels[succ.getNum()].getCout()>cout_nouv) {
+    		
+    						labels[succ.getNum()].setCout(cout_nouv);
+    						labels[succ.getNum()].setPere(racine.getSommet());
+    						//le tas prend en compte ses modifications
+    						tas.update(labels[succ.getNum()]);
+
+    					}
     				}
     			}
     		}
@@ -216,20 +112,26 @@ public class Pcc extends Algo {
     		throw new ExceptionBE("Il n'y a pas de chemin !") ; 
     	}
     	else{
+    		
+    		//Tracé du pcc
     		Label labelIter=racine;
     		while(!labelIter.getSommet().equals(origine)){
+
     			listeSommetPcc.add(labelIter.getSommet());
     			nbSommetsPcc++;
-    			labelIter=lesMarques[labelIter.getPere().getNum()];
+    			labelIter=labels[labelIter.getPere().getNum()];
+
     		}
+			listeSommetPcc.add(labelIter.getSommet());
     		Chemin cheminPcc=new Chemin(nbSommetsPcc,listeSommetPcc,graphe.getIdCarte(),graphe.getDessin());
     		cheminPcc.dessinerChemin();
-    		
-    	} 
-    	System.out.println("PCC de " + ":" + origine.getNum() + " vers " +  ":" + destination.getNum()+" vaut "+racine.getCout()) ;
-    	long t2 = System.currentTimeMillis() ; 
 
+    	}
+    	
+    	affichageFin( origine, destination,racine.getCout());
+    	long t2 = System.currentTimeMillis() ; 
     	perfAlgo((t2-t1),maxElementTas,nbSommetsExplores,nbMarques) ;
+    
     }
     
     
@@ -240,12 +142,21 @@ public class Pcc extends Algo {
     }
     
 	protected Label initLabel(float cout, Sommets Pere, Sommets sommet,boolean marque,Sommets Destination){
-    	return new Label(cout,Pere,sommet,marque );
+    	return new Label(cout,Pere,sommet,marque);
     }
     
     
+    protected float initCout(float cout,int distance, float vitesse){
+    	return cout + (60.0f*distance)/(1000*vitesse);
+    }
     
-    
+   protected void affichageDebut(){
+		System.out.println("Run PCC en temps de " + zoneOrigine + ":" + origine + " vers " + zoneDestination + ":" + destination) ;
+	}
+   
+   protected void affichageFin(Sommets origine, Sommets destination,float cout){
+   		System.out.println("PCC en temps de " + ": " + origine.getNum() + " vers " +  ": " + destination.getNum()+" vaut "+cout+" minutes soit "+cout/60+" heures.") ;
+	}
 }
 
 
