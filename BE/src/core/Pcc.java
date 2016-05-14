@@ -18,17 +18,27 @@ public class Pcc extends Algo {
     public Pcc(Graphe gr, PrintStream sortie, Readarg readarg) {
 		super(gr, sortie, readarg) ;
 		int s1,s2;
-	
-		this.zoneOrigine = gr.getZone () ;
-		s1 = readarg.lireInt ("Numero du sommet d'origine ? ") ;
-		origine=gr.getSommets(s1);
-	
-		// Demander la zone et le sommet destination.
-		this.zoneOrigine = gr.getZone () ;
-		s2= readarg.lireInt ("Numero du sommet destination ? ");
-		destination=gr.getSommets(s2);
+		if(ConstantsDebug.doTimeExec) {
+			this.zoneOrigine = gr.getZone () ;
+			s1 = 119963 ; 
+			origine=gr.getSommets(s1);
+			this.zoneOrigine = gr.getZone () ;
+			s2= 96676 ; 
+			destination=gr.getSommets(s2);
+		} 
+		else {
+			this.zoneOrigine = gr.getZone () ;
+			s1 = readarg.lireInt ("Numero du sommet d'origine ? ") ;
+			origine=gr.getSommets(s1);
+			
+			// Demander la zone et le sommet destination.
+			this.zoneOrigine = gr.getZone () ;
+			s2= readarg.lireInt ("Numero du sommet destination ? ");
+			destination=gr.getSommets(s2);
+		}
 	
     } 	
+    
      
     public void run() throws ExceptionBE {
     	if(ConstantsDebug.printDebug) affichageDebut();
@@ -129,7 +139,7 @@ public class Pcc extends Algo {
 
     	}
     	
-    	if (ConstantsDebug.printDebug) affichageFin( origine, destination,racine.getCout());
+    	if (ConstantsDebug.printResult) affichageFin( origine, destination,racine.getCout());
     	if (ConstantsDebug.printDebug) perfAlgo(maxElementTas,nbSommetsExplores,nbMarques) ;
     
     }
