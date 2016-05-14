@@ -15,10 +15,12 @@ PCC de :2392545 vers :262741 vaut 462.30945
 Temps d'exec : 37367 , MaxElem : 2395 , Nb sommets Explores : 1265486 Nb marques : 1263310
  * 
  */
+
+
 public class PccStar extends Pcc {
 
     public PccStar(Graphe gr, PrintStream sortie, Readarg readarg) {
-	super(gr, sortie, readarg) ;
+    	super(gr, sortie, readarg) ;
     }
 
 

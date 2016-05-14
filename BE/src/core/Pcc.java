@@ -16,23 +16,24 @@ public class Pcc extends Algo {
     protected Sommets destination ;
 
     public Pcc(Graphe gr, PrintStream sortie, Readarg readarg) {
-	super(gr, sortie, readarg) ;
-	int s1,s2;
-
-	this.zoneOrigine = gr.getZone () ;
-	s1 = readarg.lireInt ("Numero du sommet d'origine ? ") ;
-	origine=gr.getSommets(s1);
-
-	// Demander la zone et le sommet destination.
-	this.zoneOrigine = gr.getZone () ;
-	s2= readarg.lireInt ("Numero du sommet destination ? ");
-	destination=gr.getSommets(s2);
+		super(gr, sortie, readarg) ;
+		int s1,s2;
+	
+		this.zoneOrigine = gr.getZone () ;
+		s1 = readarg.lireInt ("Numero du sommet d'origine ? ") ;
+		origine=gr.getSommets(s1);
+	
+		// Demander la zone et le sommet destination.
+		this.zoneOrigine = gr.getZone () ;
+		s2= readarg.lireInt ("Numero du sommet destination ? ");
+		destination=gr.getSommets(s2);
 	
     } 	
      
     public void run() throws ExceptionBE {
-    	long t1 = System.currentTimeMillis() ; 
-    	affichageDebut();
+    	if(ConstantsDebug.printDebug) affichageDebut();
+    	
+    	//Création du tas binaire 
     	tas= new BinaryHeap<Label>();
     	
     	//Pour le tracé du PCC
@@ -128,16 +129,15 @@ public class Pcc extends Algo {
 
     	}
     	
-    	affichageFin( origine, destination,racine.getCout());
-    	long t2 = System.currentTimeMillis() ; 
-    	perfAlgo((t2-t1),maxElementTas,nbSommetsExplores,nbMarques) ;
+    	if (ConstantsDebug.printDebug) affichageFin( origine, destination,racine.getCout());
+    	if (ConstantsDebug.printDebug) perfAlgo(maxElementTas,nbSommetsExplores,nbMarques) ;
     
     }
     
     
     
-    public void perfAlgo(long t, int maxElem , int nbSommetsExplores , int nbMarques) {
-    	System.out.println("Temps d'exec : "+t+" , MaxElem : "+maxElem+" , Nb sommets Explores : "+nbSommetsExplores
+    public void perfAlgo(int maxElem , int nbSommetsExplores , int nbMarques) {
+    	System.out.println("MaxElem : "+maxElem+" , Nb sommets Explores : "+nbSommetsExplores
     			+" Nb marques : "+nbMarques);
     }
     
