@@ -2,7 +2,6 @@ package core ;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import base.Readarg;
 
@@ -18,32 +17,27 @@ public class Pcc extends Algo {
     public Pcc(Graphe gr, PrintStream sortie, Readarg readarg) {
 		super(gr, sortie, readarg) ;
 		int s1,s2;
-		if(ConstantsDebug.doTimeExec) {
-			this.zoneOrigine = gr.getZone () ;
-			s1 = 949549 ; 
-			origine=gr.getSommets(s1);
-			this.zoneOrigine = gr.getZone () ;
-			s2= 342377 ; 
-			destination=gr.getSommets(s2);
-		} 
-		else {
-			this.zoneOrigine = gr.getZone () ;
-			s1 = readarg.lireInt ("Numero du sommet d'origine ? ") ;
-			origine=gr.getSommets(s1);
-			
-			// Demander la zone et le sommet destination.
-			this.zoneOrigine = gr.getZone () ;
-			s2= readarg.lireInt ("Numero du sommet destination ? ");
-			destination=gr.getSommets(s2);
-		}
+		this.zoneOrigine = gr.getZone () ;
+		s1 = readarg.lireInt ("Numero du sommet d'origine ? ") ;
+		origine=gr.getSommets(s1);
+		
+		// Demander la zone et le sommet destination.
+		this.zoneOrigine = gr.getZone () ;
+		s2= readarg.lireInt ("Numero du sommet destination ? ");
+		destination=gr.getSommets(s2);
+
 	
     } 	
     
      
     public void run() throws ExceptionBE  {
-    	if(ConstantsDebug.doTimeExec) {
+    	if(ConstantsDebug.doTimeExec==1) {
     		for (int i =0; i<5 ; i++) {
-    			launchPCC() ; 
+    			System.gc();
+    			long t1 = System.currentTimeMillis() ; 
+        		this.launchPCC();
+        		long t2 = System.currentTimeMillis() ; 
+        		System.out.println("Temps d'execution : "+(t2-t1)+" ms") ;
     		}
     		System.gc();
     		long t1 = System.currentTimeMillis() ; 
@@ -57,7 +51,7 @@ public class Pcc extends Algo {
     }
     
     public void launchPCC() throws ExceptionBE{
-    	if(ConstantsDebug.printDebug) affichageDebut();
+    	if(ConstantsDebug.printDebug==1) affichageDebut();
     	
     	//Création du tas binaire 
     	tas= new BinaryHeap<Label>();
@@ -66,12 +60,16 @@ public class Pcc extends Algo {
     	int nbSommetsPcc=0;
     	ArrayList<Sommets> listeSommetPcc= new ArrayList<Sommets>();
     	
+    	long tinit1=System.currentTimeMillis() ; 
     	//Tableau contenant tous les labels
     	Label labels[] = new Label[graphe.getTabSommets().length];
     	//initialisation de tous les labels
     	for (int i=0;i<graphe.getTabSommets().length;i++){
     		labels[i]=initLabel(999999999,null,graphe.getSommets(i),false,destination );
     	}
+    	long tinit2=System.currentTimeMillis() ; 
+    	System.out.println("Temps de l'init : "+(tinit2-tinit1));
+    	
     	
     	//initialisation de la racine 
 		Label racine= initLabel(0,origine,origine,false,destination );
@@ -81,7 +79,7 @@ public class Pcc extends Algo {
     	int maxElementTas=1 ;
     	int nbSommetsExplores = 1; 
     	int nbMarques = 0 ; 
-    	
+    	long twhile1 = System.currentTimeMillis() ; 
     	//on ne sort pas tant que le tas n'est pas vide ou que le sommet destination n'est pas explor�
     	while(tas.size()!=0 && racine.getSommet()!=destination){
 
@@ -135,6 +133,8 @@ public class Pcc extends Algo {
     			}
     		}
     	}
+    	long twhile2 = System.currentTimeMillis() ;
+    	System.out.println("Temps du while : "+(twhile2-twhile1));
     	if (!destination.equals(racine.getSommet())) {
     		throw new ExceptionBE("Il n'y a pas de chemin !") ; 
     	}
@@ -155,8 +155,8 @@ public class Pcc extends Algo {
 
     	}
     	
-    	if (ConstantsDebug.printResult) affichageFin( origine, destination,racine.getCout());
-    	if (ConstantsDebug.printDebug) perfAlgo(maxElementTas,nbSommetsExplores,nbMarques) ;
+    	if (ConstantsDebug.printResult==1) affichageFin( origine, destination,racine.getCout());
+    	if (ConstantsDebug.printDebug==1) perfAlgo(maxElementTas,nbSommetsExplores,nbMarques) ;
     }
     
     public void perfAlgo(int maxElem , int nbSommetsExplores , int nbMarques) {

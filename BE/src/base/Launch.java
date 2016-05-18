@@ -19,13 +19,13 @@ import java.io.* ;
 public class Launch {
 
     private final Readarg readarg ;
-
+    
     public Launch(String[] args) {
 	this.readarg = new Readarg(args) ;
     }
 
     public void afficherMenu () {
-	System.out.println () ;
+    System.out.println () ;
 	System.out.println ("MENU") ;
 	System.out.println () ;
 	System.out.println ("0 - Quitter") ;
@@ -50,7 +50,10 @@ public class Launch {
 	    System.out.println ("** Programme de test des algorithmes de graphe.");
 	    System.out.println ("**") ;
 	    System.out.println () ;
-
+	    
+	    ConstantsDebug.printResult = this.readarg.lireInt("Résultats ?") ; 
+	    ConstantsDebug.printDebug = this.readarg.lireInt("Debug ?") ; 
+	    ConstantsDebug.doTimeExec = this.readarg.lireInt("Temps exec ?") ; 
 	    // On obtient ici le nom de la carte a utiliser.
 	    String nomcarte = this.readarg.lireString ("Nom du fichier .map a utiliser ? ") ;
 	    DataInputStream mapdata = Openfile.open (nomcarte) ;
@@ -67,7 +70,7 @@ public class Launch {
 	    int choix2;
 	    
 	    while (continuer) {
-		this.afficherMenu () ;
+		//this.afficherMenu () ;
 		choix = this.readarg.lireInt ("Votre choix ? ") ;
 		
 		// Algorithme a executer
