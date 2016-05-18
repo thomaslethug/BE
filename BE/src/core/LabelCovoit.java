@@ -11,12 +11,12 @@ public class LabelCovoit extends Label implements Comparable<LabelCovoit>{
 	private float coutP  ;
 	private float coutV ; 
 	
-	public LabelCovoit(float coutP,float coutV,Sommets sommet,Sommets pereP,Sommets pereV) {
+	public LabelCovoit(float cout,Sommets sommet,Sommets pere) {
 		super(sommet);
-		this.coutP=coutP ; 
-		this.coutV=coutV ; 
-		this.pereP=pereP ; 
-		this.pereV=pereV ; 
+		this.coutP=cout ; 
+		this.coutV=cout ; 
+		this.pereP=pere ; 
+		this.pereV=pere ; 
 		
 		//init a False 
 		this.marqueP=false ; 

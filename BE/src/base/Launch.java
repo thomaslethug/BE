@@ -14,6 +14,7 @@ package base ;
  */
 
 import core.* ;
+
 import java.io.* ;
 
 public class Launch {
@@ -128,7 +129,8 @@ public class Launch {
 		    String nom_chemin = this.readarg.lireString ("Nom du fichier .path contenant le chemin ? ") ;
 		    graphe.verifierChemin(Openfile.open (nom_chemin), nom_chemin) ;
 		    break ;
-
+		case 6 : 
+			algo = Covoiturage(graphe,this.fichierSortie (),readarg) ; 
 		default:
 		    System.out.println ("Choix de menu incorrect : " + choix) ;
 		    System.exit(1) ;
