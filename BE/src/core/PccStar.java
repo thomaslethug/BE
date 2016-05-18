@@ -25,15 +25,15 @@ public class PccStar extends Pcc {
 
 
     @Override
-	protected Label initLabel(float cout, Sommets pere, Sommets sommet,boolean marque,Sommets Destination){
+	protected LabelAStar initLabel(float cout, Sommets pere, Sommets sommet,boolean marque,Sommets Destination){
     	return new LabelAStar(cout,pere,sommet,marque,calculTemps(sommet));
 	}
 
 
     private float calculTemps(Sommets sommet){
-    	float distance=(float)graphe.distance(sommet.getLongitudes(),sommet.getLatitudes(),destination.getLongitudes(),destination.getLatitudes()); //mètre
-    	float vitesse=(float)130; //km/h
-    	return (60.0f*distance)/(1000*vitesse);			
+    	double distance= Graphe.distance(sommet.getLongitudes(),sommet.getLatitudes(),destination.getLongitudes(),destination.getLatitudes()); //mètre
+    	double vitesse=130.0; //km/h
+    	return (float)((60.0*distance)/(1000.0*vitesse));			
     }
     
     

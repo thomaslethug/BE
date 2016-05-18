@@ -10,7 +10,7 @@ public class Pcc extends Algo {
     // Sommets origine et destination
     protected int zoneOrigine ;
     protected Sommets origine ;
-    protected BinaryHeap<Label> tas;
+    protected BinaryHeap<LabelPCC> tas;
     protected int zoneDestination ;
     protected Sommets destination ;
 
@@ -54,7 +54,7 @@ public class Pcc extends Algo {
     	if(ConstantsDebug.printDebug==1) affichageDebut();
     	
     	//Création du tas binaire 
-    	tas= new BinaryHeap<Label>();
+    	tas= new BinaryHeap<LabelPCC>();
     	
     	//Pour le tracé du PCC
     	int nbSommetsPcc=0;
@@ -62,17 +62,17 @@ public class Pcc extends Algo {
     	
     	long tinit1=System.currentTimeMillis() ; 
     	//Tableau contenant tous les labels
-    	Label labels[] = new Label[graphe.getTabSommets().length];
+    	LabelPCC labels[] = new LabelPCC[graphe.getTabSommets().length];
     	//initialisation de tous les labels
     	for (int i=0;i<graphe.getTabSommets().length;i++){
-    		labels[i]=initLabel(999999999,null,graphe.getSommets(i),false,destination );
+    		labels[i]=initLabel(999999999,null,graphe.getSommets(i),false,destination);
     	}
     	long tinit2=System.currentTimeMillis() ; 
     	System.out.println("Temps de l'init : "+(tinit2-tinit1));
     	
     	
     	//initialisation de la racine 
-		Label racine= initLabel(0,origine,origine,false,destination );
+    	LabelPCC racine= initLabel(0,origine,origine,false,destination);
     	tas.insert(racine);
     
 
@@ -141,7 +141,7 @@ public class Pcc extends Algo {
     	else{
     		
     		//Tracé du pcc
-    		Label labelIter=racine;
+    		LabelPCC labelIter=racine;
     		while(!labelIter.getSommet().equals(origine)){
 
     			listeSommetPcc.add(labelIter.getSommet());
@@ -164,8 +164,8 @@ public class Pcc extends Algo {
     			+" Nb marques : "+nbMarques);
     }
     
-	protected Label initLabel(float cout, Sommets Pere, Sommets sommet,boolean marque,Sommets Destination){
-    	return new Label(cout,Pere,sommet,marque);
+	protected LabelPCC initLabel(float cout, Sommets Pere, Sommets sommet,boolean marque,Sommets Destination){
+    	return new LabelPCC(cout,Pere,sommet,marque);
     }
     
     

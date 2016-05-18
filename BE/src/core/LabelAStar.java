@@ -1,11 +1,11 @@
 package core;
 
-public class LabelAStar extends Label{
+public class LabelAStar extends LabelPCC{
 
 	private float coutDestination;
 
-	public LabelAStar(float cout, Sommets Pere, Sommets sommet,boolean marque, float coutDest){
-		super(cout,Pere,sommet,marque);
+	public LabelAStar(float cout, Sommets pere, Sommets sommet,boolean marque, float coutDest){
+		super(cout,pere,sommet,marque);
 		this.coutDestination=coutDest;	
 	}
 
