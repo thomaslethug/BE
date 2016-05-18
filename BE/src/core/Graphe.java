@@ -20,6 +20,7 @@ public class Graphe {
 
 	//list de sommets 
 	private Sommets[] sommets ; 
+	private Sommets[] sommetsInv  ; 
 	
 	
     // Nom de la carte utilisee pour construire ce graphe
@@ -336,6 +337,25 @@ public class Graphe {
 	
 	public int getIdCarte() {
 		return this.idcarte ; 
+	}
+	
+	public void graphInv() {
+		//Création des sommets pour le graph inverse
+		sommetsInv= new Sommets[sommets.length] ; 
+		for (int i=0 ; i<sommets.length ; i++)
+		{	
+			sommetsInv[i]=new Sommets(sommets[i].getNum(), sommets[i].getLongitudes(), sommets[i].getLatitudes(), 0) ; 
+		}
+		
+		//algo de graph inverse 
+		for (int i=0 ; i<sommetsInv.length ;i++) {
+			for(Arete a : sommets[i].getArete()) {
+				int numSucc=a.getSommetSucc().getNum() ; 
+				sommetsInv[numSucc].addArete(new Arete(a.getLongueurArete(),a.getDescript(),sommets[i]));
+				sommetsInv[numSucc].setNbSuccesseur(sommetsInv[numSucc].getNbSuccesseur()+1);
+			}
+		}
+		
 	}
     
 
