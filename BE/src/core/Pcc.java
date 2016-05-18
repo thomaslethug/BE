@@ -1,5 +1,6 @@
 package core ;
 
+import java.awt.Color;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
@@ -151,7 +152,7 @@ public class Pcc extends Algo {
     		}
 			listeSommetPcc.add(labelIter.getSommet());
     		Chemin cheminPcc=new Chemin(nbSommetsPcc,listeSommetPcc,graphe.getIdCarte(),graphe.getDessin());
-    		cheminPcc.dessinerChemin();
+    		cheminPcc.dessinerChemin(Color.BLUE);
 
     	}
     	

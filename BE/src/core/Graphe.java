@@ -5,6 +5,7 @@ package core ;
  *   A vous de completer selon vos choix de conception.
  */
 
+import java.awt.Color;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -316,7 +317,7 @@ public class Graphe {
 		    System.out.println("Le chemin " + nom_chemin + " ne termine pas sur le bon noeud.") ;
 		    System.exit(1) ;
 		}
-	    chemin.dessinerChemin() ;
+	    chemin.dessinerChemin(Color.BLUE) ;
 	    System.out.println("temps du chemin : "+chemin.calculTemps());
 
 	} catch (IOException e) {

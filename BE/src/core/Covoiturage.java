@@ -1,6 +1,8 @@
 package core ;
 
+import java.awt.Color;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import base.Readarg;
 //h�rite de Pcc pour pouvoir utiliser certaines m�thodes, le PCC lui meme ( Pcc.run())n'est pas utilis�.
@@ -54,8 +56,8 @@ public class Covoiturage extends Algo{
 								labels[succ.getNum()].setConnexeP(true);
 								labels_tasP[succ.getNum()].setCout(cout_nouv);
 								labels_tasP[succ.getNum()].setPere(racine.getSommet());
-								System.out.println("Ajout dans PCC pieton");
-			    				System.out.println("cout pieton"+labels[succ.getNum()].getCoutP()+"cout voiture"+labels[succ.getNum()].getCoutV()+"connexit� V"+labels[succ.getNum()].isConnexeV());
+								//System.out.println("Ajout dans PCC pieton");
+			    				//System.out.println("cout pieton"+labels[succ.getNum()].getCoutP()+"cout voiture"+labels[succ.getNum()].getCoutV()+"connexit� V"+labels[succ.getNum()].isConnexeV());
 								tas.insert(labels_tasP[succ.getNum()]);		//on ajoutte le label dans le tas de P 
 			    				// mise � jour de la meilleur route � prendre pour les deux covoitureurs
 			    				if(labels[succ.getNum()].isConnexeV() && minRoute> (labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP()))  {
@@ -65,7 +67,7 @@ public class Covoiturage extends Algo{
 			    				
 			    			 
 			    				//DESSIN DES SOMMETS 
-			    				graphe.getDessin().setColor(java.awt.Color.RED) ;
+			    				graphe.getDessin().setColor(java.awt.Color.GREEN) ;
 			    				graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
 			    					
 							}
@@ -108,8 +110,8 @@ public class Covoiturage extends Algo{
 						labels_tasV[succ.getNum()].setPere(racine.getSommet());
 						
 						tas.insert(labels_tasV[succ.getNum()]);
-	    				System.out.println("j'ajoute");
-	    				System.out.println("cout pieton"+labels[succ.getNum()].getCoutP()+"cout voiture"+labels[succ.getNum()].getCoutV()+"connexit� P "+labels[succ.getNum()].isConnexeP()+"connexit� V "+labels[succ.getNum()].isConnexeV());
+	    				//System.out.println("j'ajoute");
+	    				//System.out.println("cout pieton"+labels[succ.getNum()].getCoutP()+"cout voiture"+labels[succ.getNum()].getCoutV()+"connexit� P "+labels[succ.getNum()].isConnexeP()+"connexit� V "+labels[succ.getNum()].isConnexeV());
 	    				// mise � jour de la meilleur route � prendre pour les deux covoitureurs
 	    				if(labels[succ.getNum()].getCoutP()!=0 && succ.getNum()!=origine.getNum() && minRoute> (labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP())){
 	    						minRoute=(labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP());
@@ -187,8 +189,8 @@ public class Covoiturage extends Algo{
 		labels[destination.getNum()]= initLabelCovoit(0,destination, destination,destination );
 		labels[destination.getNum()].setConnexeV(true);//idem
 		
-		LabelPCC racineV = initLabel(0,origine,origine,false,destination); 
-		LabelPCC racineP=initLabel(0,destination,destination,false,destination);
+		LabelPCC racineV = initLabel(0,destination,destination,false,destination); 
+		LabelPCC racineP=initLabel(0,origine,origine,false,destination);
 		
 		
     	tasP.insert(racineP);
@@ -226,7 +228,34 @@ public class Covoiturage extends Algo{
     	if(tasP.isEmpty()==true || tasV.isEmpty()==true){
     		System.out.println("les deux ne peuvent pas se rejoindre");
     	}
-    		
+    	
+    	//tracé du trajet voiture
+    	LabelPCC labelIter= racineV ;
+    	ArrayList<Sommets> listeSommetPccV= new ArrayList<Sommets>();
+    	int nbSommetsPccV = 0 ; 
+    	while(!(labelIter.getSommet().equals(destination))) {
+    		listeSommetPccV.add(labelIter.getSommet()) ; 
+    		nbSommetsPccV++ ; 
+    		labelIter=labels_tasV[labelIter.getPere().getNum()];
+    	}
+    	listeSommetPccV.add(labelIter.getSommet()) ; 
+    	Chemin cheminPcc=new Chemin(nbSommetsPccV,listeSommetPccV,graphe.getIdCarte(),graphe.getDessin());
+		cheminPcc.dessinerChemin(Color.RED);
+		
+		//tracé du trajet pieton
+    	LabelPCC labelIter2= racineP ;
+    	ArrayList<Sommets> listeSommetPccP= new ArrayList<Sommets>();
+    	int nbSommetsPccP = 0 ; 
+    	while(!(labelIter2.getSommet().equals(origine))) {
+    		listeSommetPccP.add(labelIter2.getSommet()) ; 
+    		nbSommetsPccP++ ; 
+    		labelIter2=labels_tasP[labelIter2.getPere().getNum()];
+    	}
+    	listeSommetPccP.add(labelIter2.getSommet()) ; 
+    	Chemin cheminPccP=new Chemin(nbSommetsPccP,listeSommetPccP,graphe.getIdCarte(),graphe.getDessin());
+		cheminPccP.dessinerChemin(Color.GRAY);
+		
+		
     	System.out.println("temps: "+coutRoute+"rdv au sommet: "+ rdv.getNum()+"le pieton marche: "+labels[rdv.getNum()].getCoutP()+"min et la voiture met: "+labels[rdv.getNum()].getCoutV()+"min");
     	
     	//System.out.println("le rendez vous est en:" +rdv.getNum()+"cela prendra "+labels[rdv.getNum()]+"min au pieton"+ "et"+labels[rdv.getNum()]+"min pour la voiture et son conducteur");

@@ -1,5 +1,6 @@
 package core;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import base.Dessin;
@@ -45,9 +46,9 @@ public class Chemin {
 		return temps;
 	}
 	
-	public void dessinerChemin() {
+	public void dessinerChemin(Color c) {
 		for (int i=0 ; i<(listeSommets.size()-1);i++) {
-			dessin.setColor(java.awt.Color.blue) ;
+			dessin.setColor(c) ;
 			dessin.setWidth(4);
 			dessin.drawLine(listeSommets.get(i).getLongitudes(),listeSommets.get(i).getLatitudes()
 					, listeSommets.get(i+1).getLongitudes(), listeSommets.get(i+1).getLatitudes()) ;

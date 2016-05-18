@@ -130,7 +130,7 @@ public class Launch {
 		    graphe.verifierChemin(Openfile.open (nom_chemin), nom_chemin) ;
 		    break ;
 		case 6 : 
-			algo = Covoiturage(graphe,this.fichierSortie (),readarg) ; 
+			algo = new Covoiturage(graphe,this.fichierSortie (),readarg) ; break ; 
 		default:
 		    System.out.println ("Choix de menu incorrect : " + choix) ;
 		    System.exit(1) ;
