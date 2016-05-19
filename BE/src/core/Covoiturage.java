@@ -230,29 +230,30 @@ public class Covoiturage extends Algo{
     	}
     	
     	//tracé du trajet voiture
-    	LabelPCC labelIter= racineV ;
-    	ArrayList<Sommets> listeSommetPccV= new ArrayList<Sommets>();
-    	int nbSommetsPccV = 0 ; 
+    	LabelCovoit labelIter= labels[rdv.getNum()] ;
+    	ArrayList<Sommets> listeSommetsV= new ArrayList<Sommets>();
+    	int nbSommetsV = 0 ; 
     	while(!(labelIter.getSommet().equals(destination))) {
-    		listeSommetPccV.add(labelIter.getSommet()) ; 
-    		nbSommetsPccV++ ; 
-    		labelIter=labels_tasV[labelIter.getPere().getNum()];
+    		listeSommetsV.add(labelIter.getSommet()) ; 
+    		nbSommetsV++ ; 
+    		labelIter=labels[labelIter.getPereV().getNum()];
     	}
-    	listeSommetPccV.add(labelIter.getSommet()) ; 
-    	Chemin cheminPcc=new Chemin(nbSommetsPccV,listeSommetPccV,graphe.getIdCarte(),graphe.getDessin());
-		cheminPcc.dessinerChemin(Color.RED);
+    	listeSommetsV.add(labelIter.getSommet()) ; 
+    	Chemin cheminV=new Chemin(nbSommetsV,listeSommetsV,graphe.getIdCarte(),graphe.getDessin());
+    	cheminV.dessinerChemin(Color.RED);
+    	
 		
 		//tracé du trajet pieton
-    	LabelPCC labelIter2= racineP ;
-    	ArrayList<Sommets> listeSommetPccP= new ArrayList<Sommets>();
-    	int nbSommetsPccP = 0 ; 
+    	LabelCovoit labelIter2= labels[rdv.getNum()] ;
+    	ArrayList<Sommets> listeSommetP= new ArrayList<Sommets>();
+    	int nbSommetsP = 0 ; 
     	while(!(labelIter2.getSommet().equals(origine))) {
-    		listeSommetPccP.add(labelIter2.getSommet()) ; 
-    		nbSommetsPccP++ ; 
-    		labelIter2=labels_tasP[labelIter2.getPere().getNum()];
+    		listeSommetP.add(labelIter2.getSommet()) ; 
+    		nbSommetsP++ ; 
+    		labelIter2=labels[labelIter2.getPereP().getNum()];
     	}
-    	listeSommetPccP.add(labelIter2.getSommet()) ; 
-    	Chemin cheminPccP=new Chemin(nbSommetsPccP,listeSommetPccP,graphe.getIdCarte(),graphe.getDessin());
+    	listeSommetP.add(labelIter2.getSommet()) ; 
+    	Chemin cheminPccP=new Chemin(nbSommetsP,listeSommetP,graphe.getIdCarte(),graphe.getDessin());
 		cheminPccP.dessinerChemin(Color.GRAY);
 		
 		
