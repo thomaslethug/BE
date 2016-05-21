@@ -1,35 +1,88 @@
 package core;
 
-public class LabelCovoit extends Label implements Comparable<LabelCovoit>{
+public class LabelCovoit extends Label {
 
 	private Sommets pereV; 
 	private Sommets pereP ; 
+	private Sommets pereD ; 
 	private boolean connexeP ;
+	private boolean connexeD ;
 	private boolean connexeV ; 
 	private boolean marqueP ;
+	private boolean marqueD ;
 	private boolean marqueV ; 
 	private float coutP  ;
 	private float coutV ; 
+	private float coutD  ;
 	
 	public LabelCovoit(float cout,Sommets sommet,Sommets pere) {
 		super(sommet);
 		this.coutP=cout ; 
-		this.coutV=cout ; 
+		this.coutV=cout ;
+		this.coutD=cout ; 
 		this.pereP=pere ; 
-		this.pereV=pere ; 
+		this.pereV=pere ;
+		this.pereD=pere ; 
 		
 		//init a False 
 		this.marqueP=false ; 
 		this.marqueV=false ; 
+		this.marqueD=false ; 
 		this.connexeP=false ; 
 		this.connexeV=false ; 
+		this.connexeD=false ; 
 
 	}
 
-	@Override
-	public int compareTo(LabelCovoit o) {
-		return 0;
+	
+
+	public Sommets getPereD() {
+		return pereD;
 	}
+
+
+
+	public void setPereD(Sommets pereD) {
+		this.pereD = pereD;
+	}
+
+
+
+	public boolean isConnexeD() {
+		return connexeD;
+	}
+
+
+
+	public void setConnexeD(boolean connexeD) {
+		this.connexeD = connexeD;
+	}
+
+
+
+	public boolean isMarqueD() {
+		return marqueD;
+	}
+
+
+
+	public void setMarqueD(boolean marqueD) {
+		this.marqueD = marqueD;
+	}
+
+
+
+	public float getCoutD() {
+		return coutD;
+	}
+
+
+
+	public void setCoutD(float coutD) {
+		this.coutD = coutD;
+	}
+
+
 
 	public Sommets getPereV() {
 		return pereV;

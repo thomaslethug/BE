@@ -332,6 +332,15 @@ public class Graphe {
 	public Sommets[] getTabSommets() {
 		return sommets ; 
 	}
+	
+	public Sommets getSommetsInv(int i) {
+		return sommetsInv[i] ; 
+	}
+	
+	public Sommets[] getTabSommetsInv() {
+		return sommetsInv; 
+	}
+	
 	public void setSommets(Sommets[] sommets) {
 		this.sommets = sommets;
 	}
