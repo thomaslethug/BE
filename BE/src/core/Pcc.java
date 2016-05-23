@@ -23,7 +23,7 @@ public class Pcc extends Algo {
 		origine=gr.getSommets(s1);
 		
 		// Demander la zone et le sommet destination.
-		this.zoneOrigine = gr.getZone () ;
+		this.zoneDestination = gr.getZone () ;
 		s2= readarg.lireInt ("Numero du sommet destination ? ");
 		destination=gr.getSommets(s2);
 
@@ -60,8 +60,6 @@ public class Pcc extends Algo {
     
     public void launchPCC() throws ExceptionBE{
     	if(ConstantsDebug.printDebug==1) affichageDebut();
-    	System.out.println("Origine : "+origine.getNum());
-    	System.out.println("Origine : "+origine.getNum());
 
     	//Création du tas binaire 
     	tas= new BinaryHeap<LabelPCC>();

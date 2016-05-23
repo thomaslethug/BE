@@ -267,6 +267,7 @@ public class Covoiturage extends Algo{
     	System.out.println("temps: "+coutRoute+"rdv au sommet: "+ rdv.getNum()+"le pieton marche: "+labels[rdv.getNum()].getCoutP()+"min et la voiture met: "+labels[rdv.getNum()].getCoutV()+"min");
     	
     	System.out.println("rdv : "+rdv.getNum());
+    	rdv=graphe.getSommets(rdv.getNum()) ; 
     	//A-STAR 
     	Algo astar = new PccStar(graphe, sortie, this.readarg,rdv,fin) ;
     	try {
