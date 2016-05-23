@@ -14,6 +14,7 @@ public class Pcc extends Algo {
     protected BinaryHeap<LabelPCC> tas;
     protected int zoneDestination ;
     protected Sommets destination ;
+    protected boolean printExplor ; 
 
     public Pcc(Graphe gr, PrintStream sortie, Readarg readarg) {
 		super(gr, sortie, readarg) ;
@@ -27,7 +28,7 @@ public class Pcc extends Algo {
 		s2= readarg.lireInt ("Numero du sommet destination ? ");
 		destination=gr.getSommets(s2);
 
-	
+		printExplor=true ; 
     } 	
     
     public Pcc(Graphe gr, PrintStream sortie,Readarg readarg,Sommets origine, Sommets dest) {
@@ -35,6 +36,8 @@ public class Pcc extends Algo {
     	this.zoneOrigine=gr.getZone() ; 
     	this.origine=origine ; 
     	this.destination=dest ; 
+    	
+    	printExplor=false ; 
     }
     
     
@@ -122,8 +125,10 @@ public class Pcc extends Algo {
 	    				
 	    				if(maxElementTas<tas.size()) maxElementTas=tas.size() ; 
 	    				//DESSIN DES SOMMETS 
-	    				graphe.getDessin().setColor(java.awt.Color.RED) ;
-	    				graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
+	    				if (printExplor) {
+	    					graphe.getDessin().setColor(java.awt.Color.RED) ;
+	    					graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
+	    				}
 	    					
     				}
     				

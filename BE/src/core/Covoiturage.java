@@ -74,8 +74,8 @@ public class Covoiturage extends Algo{
 			    				
 			    			 
 			    				//DESSIN DES SOMMETS 
-			    				graphe.getDessin().setColor(java.awt.Color.GREEN) ;
-			    				graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
+			    				//graphe.getDessin().setColor(java.awt.Color.GREEN) ;
+			    				//graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
 			    					
 							}
 							else{   	//si le sommet successeur est dans le tas on update si le nouveau cout est plus faible
@@ -120,15 +120,15 @@ public class Covoiturage extends Algo{
 	    				//System.out.println("j'ajoute");
 	    				//System.out.println("cout pieton"+labels[succ.getNum()].getCoutP()+"cout voiture"+labels[succ.getNum()].getCoutV()+"connexit� P "+labels[succ.getNum()].isConnexeP()+"connexit� V "+labels[succ.getNum()].isConnexeV());
 	    				// mise � jour de la meilleur route � prendre pour les deux covoitureurs
-	    				if(labels[succ.getNum()].getCoutP()!=0 && succ.getNum()!=origine.getNum() && minRoute> (labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP())){
+	    				if(labels[succ.getNum()].isConnexeP() && minRoute> (labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP())){
 	    						minRoute=(labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP());
 	    						rdv.setNum(succ.getNum());
 	    				}
 	    				
 	    			 
 	    				//DESSIN DES SOMMETS 
-	    				graphe.getDessin().setColor(java.awt.Color.BLUE) ;
-	    				graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
+	    				//graphe.getDessin().setColor(java.awt.Color.BLUE) ;
+	    				//graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
 	    					
 					}
 					else{   	//si le sommet successeur est dans le tas on met � jour si le nouveau cout est plus faible
@@ -142,7 +142,7 @@ public class Covoiturage extends Algo{
 							labels_tasV[succ.getNum()].setPere(racine.getSommet());
 							tas.update(	labels_tasV[succ.getNum()]);
 							
-							if(labels[succ.getNum()].getCoutP()!=0 && succ.getNum()!=origine.getNum() && minRoute> (labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP())){
+							if(labels[succ.getNum()].isConnexeP() && minRoute> (labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP())){
 	    						minRoute=(labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP());
 	    						rdv.setNum(succ.getNum());
 	    					
@@ -261,7 +261,7 @@ public class Covoiturage extends Algo{
     	}
     	listeSommetP.add(labelIter2.getSommet()) ; 
     	Chemin cheminPccP=new Chemin(nbSommetsP,listeSommetP,graphe.getIdCarte(),graphe.getDessin());
-		cheminPccP.dessinerChemin(Color.GRAY);
+		cheminPccP.dessinerChemin(Color.GREEN);
 		
 		
     	System.out.println("temps: "+coutRoute+"rdv au sommet: "+ rdv.getNum()+"le pieton marche: "+labels[rdv.getNum()].getCoutP()+"min et la voiture met: "+labels[rdv.getNum()].getCoutV()+"min");
@@ -273,7 +273,6 @@ public class Covoiturage extends Algo{
     	try {
 			astar.run();
 		} catch (ExceptionBE e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	
