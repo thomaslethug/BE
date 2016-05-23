@@ -6,12 +6,16 @@ import java.util.ArrayList;
 
 import base.Readarg;
 //h�rite de Pcc pour pouvoir utiliser certaines m�thodes, le PCC lui meme ( Pcc.run())n'est pas utilis�.
+
 public class Covoiturage extends Algo{
 	private Sommets origine;
 	private Sommets destination;
+	private Sommets fin ; 
+	private Readarg readarg ;
+	
     public 	Covoiturage(Graphe gr, PrintStream sortie, Readarg readarg) {
     	super(gr, sortie, readarg) ;
-    	int s1,s2;
+    	int s1,s2,s3;
     	
     	s1 = readarg.lireInt ("point de d�part Pi�ton?") ;
     	origine=gr.getSommets(s1);
@@ -20,6 +24,9 @@ public class Covoiturage extends Algo{
     	
     	s2= readarg.lireInt ("Point de d�part conducteur ? ");
     	destination=gr.getSommets(s2);
+    	
+    	s3=readarg.lireInt("Destination souhaitée ? ") ; 
+    	fin=gr.getSommets(s3) ; 
     	
     }
     //changements: prend en compte mise � jour cout de la route minimum entre les deux d�part, et donc des marques et couts s�par�s
@@ -258,6 +265,16 @@ public class Covoiturage extends Algo{
 		
 		
     	System.out.println("temps: "+coutRoute+"rdv au sommet: "+ rdv.getNum()+"le pieton marche: "+labels[rdv.getNum()].getCoutP()+"min et la voiture met: "+labels[rdv.getNum()].getCoutV()+"min");
+    	
+    	System.out.println("rdv : "+rdv.getNum());
+    	//A-STAR 
+    	Algo astar = new PccStar(graphe, sortie, this.readarg,rdv,fin) ;
+    	try {
+			astar.run();
+		} catch (ExceptionBE e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     	//System.out.println("le rendez vous est en:" +rdv.getNum()+"cela prendra "+labels[rdv.getNum()]+"min au pieton"+ "et"+labels[rdv.getNum()]+"min pour la voiture et son conducteur");
     	

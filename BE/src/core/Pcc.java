@@ -30,7 +30,14 @@ public class Pcc extends Algo {
 	
     } 	
     
-     
+    public Pcc(Graphe gr, PrintStream sortie,Readarg readarg,Sommets origine, Sommets dest) {
+    	super(gr,sortie,readarg) ; 
+    	this.zoneOrigine=gr.getZone() ; 
+    	this.origine=origine ; 
+    	this.destination=dest ; 
+    }
+    
+    
     public void run() throws ExceptionBE  {
     	if(ConstantsDebug.doTimeExec==1) {
     		for (int i =0; i<5 ; i++) {
@@ -53,7 +60,9 @@ public class Pcc extends Algo {
     
     public void launchPCC() throws ExceptionBE{
     	if(ConstantsDebug.printDebug==1) affichageDebut();
-    	
+    	System.out.println("Origine : "+origine.getNum());
+    	System.out.println("Origine : "+origine.getNum());
+
     	//Création du tas binaire 
     	tas= new BinaryHeap<LabelPCC>();
     	

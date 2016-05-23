@@ -22,6 +22,10 @@ public class PccStar extends Pcc {
     public PccStar(Graphe gr, PrintStream sortie, Readarg readarg) {
     	super(gr, sortie, readarg) ;
     }
+    
+    public PccStar(Graphe gr, PrintStream sortie, Readarg readarg,Sommets s1,Sommets s2) {
+    	super(gr,sortie,readarg,s1,s2) ; 
+    }
 
 
     @Override
