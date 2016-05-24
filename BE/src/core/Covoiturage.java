@@ -11,11 +11,12 @@ public class Covoiturage extends Algo{
 	private Sommets voitureOrgn;
 	private Sommets dest ; 
 	
+	//5844      82141     12799
 	
     public 	Covoiturage(Graphe gr, PrintStream sortie, Readarg readarg) {
     	super(gr, sortie, readarg) ;
+    	
     	int s1,s2,s3;
-    	gr.graphInv() ; 
     	
     	s1 = readarg.lireInt ("point de d�part Pi�ton?") ;
     	pietonOrgn=gr.getSommets(s1);
@@ -27,7 +28,19 @@ public class Covoiturage extends Algo{
     	
     	s3=readarg.lireInt("Point de destination ? ") ; 
     	dest=gr.getSommets(s3) ; 
+    	
+    	gr.graphInv() ; 
+
     }
+    
+    
+    
+    //P = 1355064
+    //V = 1703426
+    	//	D = 2050280
+    		
+    
+    
     //changements: prend en compte mise � jour cout de la route minimum entre les deux d�part, et donc des marques et couts s�par�s
     public float rajoutVoisins(BinaryHeap<LabelPCC> tas, LabelCovoit racine, LabelCovoit[] labels, 
     							LabelPCC[] labels_tasP, LabelPCC[] labels_tasV,LabelPCC[] labels_tasD , float minRoute, Type t,Sommets rdv){
@@ -306,7 +319,8 @@ public class Covoiturage extends Algo{
     	}
 	    	
     	
-    	
+	//	System.out.println("Trouve "+rdvTrouve+" racine V : "+racineV.getSommet().getNum()+" racine D : "+racineD.getSommet().getNum()+" racine P : "+racineP.getSommet().getNum());
+
     	
     	
     	
@@ -314,8 +328,9 @@ public class Covoiturage extends Algo{
     		System.out.println("les trois ne peuvent pas se rejoindre");
     	}
     	
+    
     	//tracé du trajet voiture
-    	LabelPCC labelIter= racineV ;
+    	LabelPCC labelIter=labels_tasV[rdv.getNum()] ;
     	ArrayList<Sommets> listeSommetPccV= new ArrayList<Sommets>();
     	int nbSommetsPccV = 0 ; 
     	while(!(labelIter.getSommet().equals(voitureOrgn))) {
@@ -328,7 +343,7 @@ public class Covoiturage extends Algo{
 		cheminPcc.dessinerChemin(Color.RED);
 		
 		//tracé du trajet pieton
-    	LabelPCC labelIterP= racineP ;
+    	LabelPCC labelIterP= labels_tasP[rdv.getNum()] ;
     	ArrayList<Sommets> listeSommetPccP= new ArrayList<Sommets>();
     	int nbSommetsPccP = 0 ; 
     	while(!(labelIterP.getSommet().equals(pietonOrgn))) {
@@ -340,14 +355,22 @@ public class Covoiturage extends Algo{
     	Chemin cheminPccP=new Chemin(nbSommetsPccP,listeSommetPccP,graphe.getIdCarte(),graphe.getDessin());
 		cheminPccP.dessinerChemin(Color.GRAY);
 		
+		
+		//5844      82141     12799
+
+		
+		
 		//tracé du trajet voiture
-    	LabelPCC labelIterD= racineD ;
+    	LabelPCC labelIterD= labels_tasD[rdv.getNum()]  ;
     	ArrayList<Sommets> listeSommetPccD= new ArrayList<Sommets>();
     	int nbSommetsPccD = 0 ; 
-    	while(!(labelIterD.getSommet().equals(dest))) {
-    		listeSommetPccD.add(labelIterD.getSommet()) ; 
+
+    	while(labelIterD.getSommet().getNum()!=dest.getNum()) {
+    		listeSommetPccD.add(labelIterD.getSommet()) ;
+
     		nbSommetsPccD++ ; 
     		labelIterD=labels_tasD[labelIterD.getPere().getNum()];
+
     	}
     	listeSommetPccD.add(labelIterD.getSommet()) ; 
     	Chemin cheminPccD=new Chemin(nbSommetsPccD,listeSommetPccD,graphe.getIdCarte(),graphe.getDessin());

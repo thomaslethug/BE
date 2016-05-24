@@ -354,6 +354,7 @@ public class Graphe {
 		sommetsInv= new Sommets[sommets.length] ; 
 		for (int i=0 ; i<sommets.length ; i++)
 		{	
+			System.out.println((i/sommets.length)*100+" % ");
 			sommetsInv[i]=new Sommets(sommets[i].getNum(), sommets[i].getLongitudes(), sommets[i].getLatitudes(), 0) ; 
 		}
 		
