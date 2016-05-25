@@ -26,9 +26,18 @@ public class Pcc extends Algo {
 		this.zoneOrigine = gr.getZone () ;
 		s2= readarg.lireInt ("Numero du sommet destination ? ");
 		destination=gr.getSommets(s2);
-
-	
-    } 	
+		} 	
+    
+    
+    public Pcc(Graphe gr, PrintStream sortie,Readarg readarg,Sommets origine, Sommets dest) {
+    	super(gr,sortie,readarg) ; 
+    	this.zoneOrigine=gr.getZone() ; 
+    	this.origine=origine ; 
+    	this.destination=dest ; 
+    	
+    	//printExplor=false ; 
+    }
+    
     
      
     public void run() throws ExceptionBE  {
@@ -115,8 +124,8 @@ public class Pcc extends Algo {
 	    				
 	    				if(maxElementTas<tas.size()) maxElementTas=tas.size() ; 
 	    				//DESSIN DES SOMMETS 
-	    				graphe.getDessin().setColor(java.awt.Color.RED) ;
-	    				graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
+	    				//graphe.getDessin().setColor(java.awt.Color.RED) ;
+	    				//graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
 	    					
     				}
     				

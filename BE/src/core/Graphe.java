@@ -354,19 +354,21 @@ public class Graphe {
 		sommetsInv= new Sommets[sommets.length] ; 
 		for (int i=0 ; i<sommets.length ; i++)
 		{	
-			System.out.println((i/sommets.length)*100+" % ");
+			System.out.println(((float)i/(float)sommets.length)*100.f+" % ");
 			sommetsInv[i]=new Sommets(sommets[i].getNum(), sommets[i].getLongitudes(), sommets[i].getLatitudes(), 0) ; 
 		}
 		
 		//algo de graph inverse 
 		for (int i=0 ; i<sommetsInv.length ;i++) {
+			System.out.println(((float)i/(float)sommets.length)*100.f+" % ");
+
 			for(Arete a : sommets[i].getArete()) {
 				int numSucc=a.getSommetSucc().getNum() ; 
 				sommetsInv[numSucc].addArete(new Arete(a.getLongueurArete(),a.getDescript(),sommets[i]));
 				sommetsInv[numSucc].setNbSuccesseur(sommetsInv[numSucc].getNbSuccesseur()+1);
 			}
 		}
-		
+		System.out.println("OMM");
 	}
     
 

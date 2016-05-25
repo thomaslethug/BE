@@ -10,6 +10,7 @@ public class Covoiturage extends Algo{
 	private Sommets pietonOrgn;
 	private Sommets voitureOrgn;
 	private Sommets dest ; 
+	private Readarg readarg;
 	
 	//5844      82141     12799
 	
@@ -30,6 +31,7 @@ public class Covoiturage extends Algo{
     	dest=gr.getSommets(s3) ; 
     	
     	gr.graphInv() ; 
+    	System.out.println("ok");
 
     }
     
@@ -37,14 +39,14 @@ public class Covoiturage extends Algo{
     
     //P = 1355064
     //V = 1703426
-    	//	D = 2050280
+    //	D = 2050280
     		
     
     
     //changements: prend en compte mise � jour cout de la route minimum entre les deux d�part, et donc des marques et couts s�par�s
     public float rajoutVoisins(BinaryHeap<LabelPCC> tas, LabelCovoit racine, LabelCovoit[] labels, 
     							LabelPCC[] labels_tasP, LabelPCC[] labels_tasV,LabelPCC[] labels_tasD , float minRoute, Type t,Sommets rdv){
-    	
+    	//System.out.println("Sommet : "+racine.getSommet().getNum());
 		//Passe par tous les successeurs du sommet derni�rement sortie du tas.  
 		for(int i=0;i<racine.getSommet().getNbSuccesseur();i++){
 			
@@ -289,45 +291,49 @@ public class Covoiturage extends Algo{
     		cP=tasP.findMin().getCout() ; 
     		cV=tasV.findMin().getCout() ; 
     		cD=tasD.findMin().getCout() ;
-    		
+    		//System.out.println("CoutD : "+cD+" CoutV : "+cV+" CoutP : "+cP);
     		if((cV<=cD)&&(cV<=cP)) {
+        		//System.out.println("Voiture");
     			racineV=tasV.deleteMin() ;
     			coutRoute=rajoutVoisins(tasV,labels[racineV.getSommet().getNum()],labels,labels_tasP,labels_tasV,labels_tasD,coutRoute,Type.voiture,rdv);		
 				labels[racineV.getSommet().getNum()].setMarqueV(true);
     		}
     		else if(cD<=cP) {
+        		//System.out.println("Dest");
+
     			racineD=tasD.deleteMin() ;
     			coutRoute=rajoutVoisins(tasD,labels[racineD.getSommet().getNum()],labels,labels_tasP,labels_tasV,labels_tasD,coutRoute,Type.dest,rdv);		
 				labels[racineD.getSommet().getNum()].setMarqueD(true);
     		}
     		else {
+        		//System.out.println("Piet");
+
     			racineP=tasP.deleteMin();
   				coutRoute=rajoutVoisins(tasP,labels[racineP.getSommet().getNum()],labels,labels_tasP,labels_tasV,labels_tasD,coutRoute,Type.pieton,rdv);
   				labels[racineP.getSommet().getNum()].setMarqueP(true);
+  				//System.out.println(racineP.getSommet().getNum());
     		}
     		
     		
     		
   
     		if(tasP.isEmpty()==false && tasV.isEmpty()==false && tasD.isEmpty()==false){
-	    		if(coutRoute<(tasP.findMin().getCout()+tasV.findMin().getCout()+tasD.findMin().getCout())){
+	    		if(labels[racineV.getSommet().getNum()].isMarqueP()==true){
+    			//if(coutRoute<(tasP.findMin().getCout()+tasV.findMin().getCout()+tasD.findMin().getCout())){
 	    			rdvTrouve=true;
+	    			rdv.setNum(racineV.getSommet().getNum());
 	    		}
     		
     		}
-    		System.out.println(tasD.size()+" "+tasP.size()+" "+tasV.size());
+    		//System.out.println(tasD.size()+" "+tasP.size()+" "+tasV.size());
     	}
 	    	
-    	
-	//	System.out.println("Trouve "+rdvTrouve+" racine V : "+racineV.getSommet().getNum()+" racine D : "+racineD.getSommet().getNum()+" racine P : "+racineP.getSommet().getNum());
-
-    	
-    	
+        	//  2370436        150579    482709
     	
     	if(tasP.isEmpty()==true || tasV.isEmpty()==true || tasD.isEmpty()){
     		System.out.println("les trois ne peuvent pas se rejoindre");
     	}
-    	
+    	else{
     
     	//tracé du trajet voiture
     	LabelPCC labelIter=labels_tasV[rdv.getNum()] ;
@@ -356,32 +362,40 @@ public class Covoiturage extends Algo{
 		cheminPccP.dessinerChemin(Color.GRAY);
 		
 		
-		//5844      82141     12799
-
-		
-		
-		//tracé du trajet voiture
-    	LabelPCC labelIterD= labels_tasD[rdv.getNum()]  ;
+		//19415    28962    121684
+		rdv=graphe.getSommets(rdv.getNum());
+	    Algo astar= new PccStar(graphe,sortie,this.readarg,rdv,dest);
+	    try {
+			astar.run();
+		} catch (ExceptionBE e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    /*
+		//tracé du trajet dest
+    	LabelPCC labelIterD= labels_tasD[racineD.getSommet().getNum()]  ;
     	ArrayList<Sommets> listeSommetPccD= new ArrayList<Sommets>();
     	int nbSommetsPccD = 0 ; 
 
+		
+
     	while(labelIterD.getSommet().getNum()!=dest.getNum()) {
     		listeSommetPccD.add(labelIterD.getSommet()) ;
-
+    		
     		nbSommetsPccD++ ; 
     		labelIterD=labels_tasD[labelIterD.getPere().getNum()];
-
     	}
     	listeSommetPccD.add(labelIterD.getSommet()) ; 
     	Chemin cheminPccD=new Chemin(nbSommetsPccD,listeSommetPccD,graphe.getIdCarte(),graphe.getDessin());
 		cheminPccD.dessinerChemin(Color.MAGENTA);
-		
+		*/
 		
     	System.out.println("temps: "+coutRoute+"rdv au sommet: "+ rdv.getNum()+"le pieton marche: "+labels[rdv.getNum()].getCoutP()+"min et la voiture met: "+labels[rdv.getNum()].getCoutV()+"min");
     	
     	//System.out.println("le rendez vous est en:" +rdv.getNum()+"cela prendra "+labels[rdv.getNum()]+"min au pieton"+ "et"+labels[rdv.getNum()]+"min pour la voiture et son conducteur");
     	
 	}
+    	}
 	
 	protected LabelPCC initLabel(float cout, Sommets Pere, Sommets sommet,boolean marque,Sommets Destination){
     	return new LabelPCC(cout,Pere,sommet,marque);

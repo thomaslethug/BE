@@ -23,7 +23,9 @@ public class PccStar extends Pcc {
     	super(gr, sortie, readarg) ;
     }
 
-
+    public PccStar(Graphe gr, PrintStream sortie, Readarg readarg,Sommets s1,Sommets s2) {
+    	super(gr,sortie,readarg,s1,s2) ; 
+    }
     @Override
 	protected LabelAStar initLabel(float cout, Sommets pere, Sommets sommet,boolean marque,Sommets Destination){
     	return new LabelAStar(cout,pere,sommet,marque,calculTemps(sommet));
