@@ -35,6 +35,7 @@ public class Launch {
 	System.out.println ("3 - Plus court chemin A-star") ;
 	System.out.println ("4 - Cliquer sur la carte pour obtenir un numero de sommet.") ;
 	System.out.println ("5 - Charger un fichier de chemin (.path) et le verifier.") ;
+	System.out.println ("6 - Lancer le covoiturage.");
 	
 	System.out.println () ;
     }
@@ -52,9 +53,6 @@ public class Launch {
 	    System.out.println ("**") ;
 	    System.out.println () ;
 	    
-	    ConstantsDebug.printResult = this.readarg.lireInt("Résultats ?") ; 
-	    ConstantsDebug.printDebug = this.readarg.lireInt("Debug ?") ; 
-	    ConstantsDebug.doTimeExec = this.readarg.lireInt("Temps exec ?") ; 
 	    // On obtient ici le nom de la carte a utiliser.
 	    String nomcarte = this.readarg.lireString ("Nom du fichier .map a utiliser ? ") ;
 	    DataInputStream mapdata = Openfile.open (nomcarte) ;
@@ -71,7 +69,7 @@ public class Launch {
 	    int choix2;
 	    
 	    while (continuer) {
-		//this.afficherMenu () ;
+		this.afficherMenu () ;
 		choix = this.readarg.lireInt ("Votre choix ? ") ;
 		
 		// Algorithme a executer

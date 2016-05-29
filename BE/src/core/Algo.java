@@ -20,9 +20,6 @@ public abstract class Algo {
     
     public abstract void run() throws ExceptionBE ;
 
-	//protected Label initLabel(float cout, Sommets pere, Sommets sommet, boolean marque, Sommets Destination) {
-		// TODO Auto-generated method stub
-		//return null;
-	//}
+	
 
 }

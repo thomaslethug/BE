@@ -6,20 +6,20 @@ import java.util.ArrayList;
 
 import base.Readarg;
 //h�rite de Pcc pour pouvoir utiliser certaines m�thodes, le PCC lui meme ( Pcc.run())n'est pas utilis�.
-
+		
 public class Covoiturage extends Algo{
 	private Sommets origine;
 	private Sommets destination;
 	private Sommets fin ; 
 	private Readarg readarg ;
-	
+		
     public 	Covoiturage(Graphe gr, PrintStream sortie, Readarg readarg) {
     	super(gr, sortie, readarg) ;
     	int s1,s2,s3;
     	
     	s1 = readarg.lireInt ("point de d�part Pi�ton?") ;
     	origine=gr.getSommets(s1);
-
+    	
     	// Demander la zone et le sommet destination.
     	
     	s2= readarg.lireInt ("Point de d�part conducteur ? ");
@@ -53,8 +53,6 @@ public class Covoiturage extends Algo{
 						//si le sommet successeur est marqu� on fait rien car d�ja trait�
 						if(labels[succ.getNum()].isMarqueP()==false){
 							
-							LabelPCC label_tas_succ;
-							label_tas_succ=initLabel(labels[succ.getNum()].getCoutP(),labels[succ.getNum()].getPereP(),labels[succ.getNum()].getSommet(),labels[succ.getNum()].isMarqueP(),null);
 							//si le sommet successeur n'est pas dans le tas, on l'ajoute
 							if(tas.contains(labels_tasP[succ.getNum()])==false){
 			
@@ -63,8 +61,6 @@ public class Covoiturage extends Algo{
 								labels[succ.getNum()].setConnexeP(true);
 								labels_tasP[succ.getNum()].setCout(cout_nouv);
 								labels_tasP[succ.getNum()].setPere(racine.getSommet());
-								//System.out.println("Ajout dans PCC pieton");
-			    				//System.out.println("cout pieton"+labels[succ.getNum()].getCoutP()+"cout voiture"+labels[succ.getNum()].getCoutV()+"connexit� V"+labels[succ.getNum()].isConnexeV());
 								tas.insert(labels_tasP[succ.getNum()]);		//on ajoutte le label dans le tas de P 
 			    				// mise � jour de la meilleur route � prendre pour les deux covoitureurs
 			    				if(labels[succ.getNum()].isConnexeV() && minRoute> (labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP()))  {
@@ -106,8 +102,6 @@ public class Covoiturage extends Algo{
 				if(labels[succ.getNum()].isMarqueV()==false){
 					
 					//si le sommet successeur n'est pas dans le tas, on l'ajoute
-					Label label_tas_succ;
-					label_tas_succ=initLabel(labels[succ.getNum()].getCoutV(),labels[succ.getNum()].getPereV(),labels[succ.getNum()].getSommet(),labels[succ.getNum()].isMarqueV(),null);
 					if(tas.contains(labels_tasV[succ.getNum()])==false){
 	
 						labels[succ.getNum()].setCoutV(cout_nouv);
@@ -117,8 +111,6 @@ public class Covoiturage extends Algo{
 						labels_tasV[succ.getNum()].setPere(racine.getSommet());
 						
 						tas.insert(labels_tasV[succ.getNum()]);
-	    				//System.out.println("j'ajoute");
-	    				//System.out.println("cout pieton"+labels[succ.getNum()].getCoutP()+"cout voiture"+labels[succ.getNum()].getCoutV()+"connexit� P "+labels[succ.getNum()].isConnexeP()+"connexit� V "+labels[succ.getNum()].isConnexeV());
 	    				// mise � jour de la meilleur route � prendre pour les deux covoitureurs
 	    				if(labels[succ.getNum()].isConnexeP() && minRoute> (labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP())){
 	    						minRoute=(labels[succ.getNum()].getCoutV()+labels[succ.getNum()].getCoutP());
@@ -126,9 +118,6 @@ public class Covoiturage extends Algo{
 	    				}
 	    				
 	    			 
-	    				//DESSIN DES SOMMETS 
-	    				//graphe.getDessin().setColor(java.awt.Color.BLUE) ;
-	    				//graphe.getDessin().drawPoint(succ.getLongitudes(), succ.getLatitudes(), 5) ;
 	    					
 					}
 					else{   	//si le sommet successeur est dans le tas on met � jour si le nouveau cout est plus faible
@@ -159,8 +148,7 @@ public class Covoiturage extends Algo{
 
 	@Override	
 	public void run(){
-		//long t1 = System.currentTimeMillis() ; 
-    	//affichageDebut();
+		
     	//initialisation d'un tas suppl�mentaire et du Sommets qui sera retourn�s.
     	// Pb des labels covoit est qu'on ne peux pas les utiliser dans le tas car deux couts diff�rents.
     	// on les utilisent pour combin� les informations des deux parcours sur chaque sommets. 
@@ -170,10 +158,6 @@ public class Covoiturage extends Algo{
     	Sommets rdv = new Sommets(0,0f,0f,0);
     	boolean rdvTrouve=false;
     	
-    	/*//Pour le trac� du PCC
-    	int nbSommetsPcc=0;
-    	ArrayList<Sommets> listeSommetPcc= new ArrayList<Sommets>();
-    	*/
     	
     	//Tableau contenant tous les labels covoit, indic� par rapport au num�ro de sommet 
     	LabelCovoit labels[] = new LabelCovoit[graphe.getTabSommets().length];
@@ -236,6 +220,7 @@ public class Covoiturage extends Algo{
     		System.out.println("les deux ne peuvent pas se rejoindre");
     	}
     	
+    	
     	//tracé du trajet voiture
     	LabelCovoit labelIter= labels[rdv.getNum()] ;
     	ArrayList<Sommets> listeSommetsV= new ArrayList<Sommets>();
@@ -246,7 +231,7 @@ public class Covoiturage extends Algo{
     		labelIter=labels[labelIter.getPereV().getNum()];
     	}
     	listeSommetsV.add(labelIter.getSommet()) ; 
-    	Chemin cheminV=new Chemin(nbSommetsV,listeSommetsV,graphe.getIdCarte(),graphe.getDessin());
+    	Chemin cheminV=new Chemin(nbSommetsV,listeSommetsV,graphe.getDessin());
     	cheminV.dessinerChemin(Color.RED);
     	
 		
@@ -260,15 +245,16 @@ public class Covoiturage extends Algo{
     		labelIter2=labels[labelIter2.getPereP().getNum()];
     	}
     	listeSommetP.add(labelIter2.getSommet()) ; 
-    	Chemin cheminPccP=new Chemin(nbSommetsP,listeSommetP,graphe.getIdCarte(),graphe.getDessin());
+    	Chemin cheminPccP=new Chemin(nbSommetsP,listeSommetP,graphe.getDessin());
 		cheminPccP.dessinerChemin(Color.GREEN);
 		
 		
     	System.out.println("temps: "+coutRoute+"rdv au sommet: "+ rdv.getNum()+"le pieton marche: "+labels[rdv.getNum()].getCoutP()+"min et la voiture met: "+labels[rdv.getNum()].getCoutV()+"min");
     	
-    	System.out.println("rdv : "+rdv.getNum());
+    	System.out.println("Rdv : "+rdv.getNum());
     	rdv=graphe.getSommets(rdv.getNum()) ; 
-    	//A-STAR 
+    	
+    	//A-STAR jusqu'à la destination 
     	Algo astar = new PccStar(graphe, sortie, this.readarg,rdv,fin) ;
     	try {
 			astar.run();
@@ -276,7 +262,6 @@ public class Covoiturage extends Algo{
 			e.printStackTrace();
 		}
     	
-    	//System.out.println("le rendez vous est en:" +rdv.getNum()+"cela prendra "+labels[rdv.getNum()]+"min au pieton"+ "et"+labels[rdv.getNum()]+"min pour la voiture et son conducteur");
     	
 	}
 	
@@ -286,7 +271,6 @@ public class Covoiturage extends Algo{
 	
     // on change l'initialisation des labels car nouveau label: LabelCovoit
     // coutV et coutP sont d�j� initialis� � -1
-    
     public LabelCovoit initLabelCovoit(float cout, Sommets pere, Sommets sommet, Sommets Destination){
     	return new LabelCovoit(cout,sommet,pere);
     }
@@ -305,10 +289,4 @@ public class Covoiturage extends Algo{
 	
 	}
 	
-	// Afin de faire des Astar
-    private float calculTemps(Sommets sommet){
-    	float distance=(float)graphe.distance(sommet.getLongitudes(),sommet.getLatitudes(),destination.getLongitudes(),destination.getLatitudes()); //mètre
-    	float vitesse=(float)130; //km/h
-    	return (60.0f*distance)/(1000*vitesse);			
-    }
 }

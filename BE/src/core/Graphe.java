@@ -25,9 +25,9 @@ public class Graphe {
 	
 	
     // Nom de la carte utilisee pour construire ce graphe
-    private final String nomCarte ;
+	private final String nomCarte ;
 
-    // Fenetre graphique
+	// Fenetre graphique
     private final Dessin dessin ;
 
     // Version du format MAP utilise'.
@@ -120,9 +120,9 @@ public class Graphe {
 				// Lecture du descripteur numero num_descr
 				descripteurs[num_descr] = new Descripteur(dis) ;
 	
-				// On affiche quelques descripteurs parmi tous.
-				//if (0 == num_descr % (1 + nb_descripteurs / 400))
-				    //System.out.println("Descripteur " + num_descr + " = " + descripteurs[num_descr]) ;
+				//On affiche quelques descripteurs parmi tous.
+				if (0 == num_descr % (1 + nb_descripteurs / 400))
+				    System.out.println("Descripteur " + num_descr + " = " + descripteurs[num_descr]) ;
 		    }
 		    
 		    
@@ -255,8 +255,8 @@ public class Graphe {
 
 	    System.out.println("Noeud le plus proche : " + noeud) ;
 	    System.out.println() ;
-	    dessin.setColor(java.awt.Color.red) ;
-	    dessin.drawPoint(sommets[noeud].getLongitudes(), sommets[noeud].getLatitudes(), 5) ;
+	    dessin.setColor(java.awt.Color.YELLOW) ;
+	    dessin.drawPoint(sommets[noeud].getLongitudes(), sommets[noeud].getLatitudes(), 7) ;
 	}
     }
 
@@ -311,7 +311,7 @@ public class Graphe {
 	    		}
 	    	}
 	    }
-	    Chemin chemin=new Chemin(nb_sommets,sommets_chemin,path_carte,dessin);
+	    Chemin chemin=new Chemin(nb_sommets,sommets_chemin,dessin);
 	    
 	    if ((zones[nb_sommets-1] != last_zone) || ( IDsommets_chemin[nb_sommets-1]!= last_node)) {
 		    System.out.println("Le chemin " + nom_chemin + " ne termine pas sur le bon noeud.") ;
@@ -340,6 +340,10 @@ public class Graphe {
 		return this.idcarte ; 
 	}
 	
+	 public String getNomCarte() {
+			return nomCarte;
+	}
+	 
 	public void graphInv() {
 		//Création des sommets pour le graph inverse
 		sommetsInv= new Sommets[sommets.length] ; 

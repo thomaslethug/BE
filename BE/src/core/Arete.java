@@ -14,7 +14,6 @@ public class Arete {
 	}
 	
 	
-	//geter arra ya les condés
 	public int getLongueurArete() {
 		return longueurArete;
 	}
@@ -27,7 +26,6 @@ public class Arete {
 		return sommetSucc;
 	}
 	
-	//seter, jet seter
 	public void setLongueurArete(int longueurArete) {
 		this.longueurArete = longueurArete;
 	}

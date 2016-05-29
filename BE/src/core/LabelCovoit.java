@@ -1,6 +1,6 @@
 package core;
 
-public class LabelCovoit extends Label implements Comparable<LabelCovoit>{
+public class LabelCovoit extends Label {
 
 	private Sommets pereV; 
 	private Sommets pereP ; 
@@ -26,10 +26,6 @@ public class LabelCovoit extends Label implements Comparable<LabelCovoit>{
 
 	}
 
-	@Override
-	public int compareTo(LabelCovoit o) {
-		return 0;
-	}
 
 	public Sommets getPereV() {
 		return pereV;

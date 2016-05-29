@@ -3,6 +3,8 @@ import java.lang.Exception ;
 
 class ExceptionBE extends Exception {
 	
+
+	private static final long serialVersionUID = 1L;
 	String motif;
 	
 	public ExceptionBE(String motif){

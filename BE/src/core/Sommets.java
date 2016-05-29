@@ -44,7 +44,6 @@ public class Sommets {
 	
 	
 	
-	//geter arra ya les condés
 	public int getNum(){
 		return this.num;
 	}
@@ -64,7 +63,6 @@ public class Sommets {
 		return arete.size();
 	}
 
-	//seter, jet seter
 	public void setArete(ArrayList<Arete> arete) {
 		this.arete = arete;
 	}

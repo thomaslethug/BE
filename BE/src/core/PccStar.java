@@ -2,19 +2,6 @@ package core ;
 
 import java.io.* ;
 import base.Readarg ;
-//2392545
-//262741
-/*
-Run PCC de 0: Sommet num 2392545 Nb successeurs : 2 vers 0: Sommet num 262741 Nb successeurs : 2
-PCC de :2392545 vers :262741 vaut 408.0556
-Temps d'exec : 15822 , MaxElem : 2658 , Nb sommets Explores : 382723 Nb marques : 380070
- * 
- * 
-Run PCC de 0: Sommet num 2392545 Nb successeurs : 2 vers 0: Sommet num 262741 Nb successeurs : 2
-PCC de :2392545 vers :262741 vaut 462.30945
-Temps d'exec : 37367 , MaxElem : 2395 , Nb sommets Explores : 1265486 Nb marques : 1263310
- * 
- */
 
 
 public class PccStar extends Pcc {

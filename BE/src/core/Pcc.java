@@ -41,28 +41,8 @@ public class Pcc extends Algo {
     }
     
     
-    public void run() throws ExceptionBE  {
-    	if(ConstantsDebug.doTimeExec==1) {
-    		for (int i =0; i<5 ; i++) {
-    			System.gc();
-    			long t1 = System.currentTimeMillis() ; 
-        		this.launchPCC();
-        		long t2 = System.currentTimeMillis() ; 
-        		System.out.println("Temps d'execution : "+(t2-t1)+" ms") ;
-    		}
-    		System.gc();
-    		long t1 = System.currentTimeMillis() ; 
-    		this.launchPCC(); 
-    		long t2 = System.currentTimeMillis() ; 
-    		System.out.println("Temps d'execution : "+(t2-t1)+" ms") ;
-    	} else {
-    		this.launchPCC();
-    	}
-    
-    }
-    
-    public void launchPCC() throws ExceptionBE{
-    	if(ConstantsDebug.printDebug==1) affichageDebut();
+    public void run() throws ExceptionBE{
+    	affichageDebut();
 
     	//Création du tas binaire 
     	tas= new BinaryHeap<LabelPCC>();
@@ -91,6 +71,7 @@ public class Pcc extends Algo {
     	int nbSommetsExplores = 1; 
     	int nbMarques = 0 ; 
     	long twhile1 = System.currentTimeMillis() ; 
+    	
     	//on ne sort pas tant que le tas n'est pas vide ou que le sommet destination n'est pas explor�
     	while(tas.size()!=0 && racine.getSommet()!=destination){
 
@@ -132,7 +113,7 @@ public class Pcc extends Algo {
 	    					
     				}
     				
-    				else{   	//si le sommet succésseur est dans le tas on update peut être
+    				else{   	//si le sommet succésseur est dans le tas on update 
 
     					if(labels[succ.getNum()].getCout()>cout_nouv) {
     		
@@ -146,8 +127,10 @@ public class Pcc extends Algo {
     			}
     		}
     	}
+    	
     	long twhile2 = System.currentTimeMillis() ;
     	System.out.println("Temps du while : "+(twhile2-twhile1));
+    	
     	if (!destination.equals(racine.getSommet())) {
     		throw new ExceptionBE("Il n'y a pas de chemin !") ; 
     	}
@@ -163,13 +146,13 @@ public class Pcc extends Algo {
 
     		}
 			listeSommetPcc.add(labelIter.getSommet());
-    		Chemin cheminPcc=new Chemin(nbSommetsPcc,listeSommetPcc,graphe.getIdCarte(),graphe.getDessin());
+    		Chemin cheminPcc=new Chemin(nbSommetsPcc,listeSommetPcc,graphe.getDessin());
     		cheminPcc.dessinerChemin(Color.BLUE);
 
     	}
     	
-    	if (ConstantsDebug.printResult==1) affichageFin( origine, destination,racine.getCout());
-    	if (ConstantsDebug.printDebug==1) perfAlgo(maxElementTas,nbSommetsExplores,nbMarques) ;
+    	affichageFin( origine, destination,racine.getCout());
+    	perfAlgo(maxElementTas,nbSommetsExplores,nbMarques) ;
     }
     
     public void perfAlgo(int maxElem , int nbSommetsExplores , int nbMarques) {

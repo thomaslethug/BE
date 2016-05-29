@@ -7,15 +7,12 @@ import base.Dessin;
 
 public class Chemin {
 	
-	private int nbSommets;
-	private int idCarte;
 	private ArrayList<Sommets> listeSommets; //c'est une file, on accède au 1er ou au dernier
 	private Dessin dessin ;
 		
 	
 	
-	public Chemin(int nbSommets, ArrayList<Sommets> listeSommets, int idCarte, Dessin dessin){
-		this.idCarte=idCarte;
+	public Chemin(int nbSommets, ArrayList<Sommets> listeSommets, Dessin dessin){
 		this.listeSommets=listeSommets;
 		this.dessin=dessin ; 
 	}

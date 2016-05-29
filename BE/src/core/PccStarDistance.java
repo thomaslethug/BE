@@ -12,7 +12,7 @@ public class PccStarDistance extends PccDistance {
 	
 	@Override
 	protected LabelPCC initLabel(float cout, Sommets pere, Sommets sommet,boolean marque,Sommets Destination){
-    	return new LabelAStar(cout,pere,sommet,marque,(float)graphe.distance(sommet.getLongitudes(),sommet.getLatitudes(),destination.getLongitudes(),destination.getLatitudes()));
+    	return new LabelAStar(cout,pere,sommet,marque,(float)Graphe.distance(sommet.getLongitudes(),sommet.getLatitudes(),destination.getLongitudes(),destination.getLatitudes()));
     }
 	   
 	
